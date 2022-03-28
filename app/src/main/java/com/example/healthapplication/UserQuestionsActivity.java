@@ -47,7 +47,7 @@ public class UserQuestionsActivity extends AppCompatActivity {
                     user.put("age", age);
                     user.put("height", height);
                     user.put("last", weight);
-                    user.put("born",score);
+                    user.put("score",score);
     // Add a new document with a generated ID
                     db.collection("users")
                             .add(user)
