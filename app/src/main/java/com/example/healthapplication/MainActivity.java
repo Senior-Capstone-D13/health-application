@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // Initialize the Google Login Feature
@@ -43,13 +44,16 @@ public class MainActivity extends AppCompatActivity {
         // Initialize the Google Sign In Button
         SignInButton signInButton = findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
-        signInButton.setOnClickListener(new View.OnClickListener(){
+        signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent sign_in_intent = mGoogleSignInClient.getSignInIntent();
                 startActivityForResult(sign_in_intent, '0');    // 0 is RC code for successful sign in
             }
         });
+
+
+
         // Initialize the text view
         TextView initialTextView = findViewById(R.id.maintextview);
         initialTextView.setText("Welcome to the Health Application!");
@@ -63,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == '0'){
+        if (resultCode == '0') {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignIn(task);
             TextView login_textview = findViewById(R.id.maintextview);
@@ -76,11 +80,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Handle potential exception for the sign in process
-    public void handleSignIn(Task<GoogleSignInAccount> completed_task){
-        try{
+    public void handleSignIn(Task<GoogleSignInAccount> completed_task) {
+        try {
             GoogleSignInAccount account = completed_task.getResult(ApiException.class); // Account contains all account information
-        }
-        catch (ApiException e){
+        } catch (ApiException e) {
             Log.w(TAG, "Exception code is " + e.getStatusCode());
         }
     }
@@ -91,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         // Null if no user sign in. Returns account if the user has already signed in
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        if(account != null) {
+        if (account != null) {
             // User has already logged in, so go to the next page with his information
             TextView user_text_view = findViewById(R.id.maintextview);
             user_text_view.setText("Hello " + account.getGivenName());
@@ -105,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         Button signOutButton = findViewById(R.id.sign_out_button);
-        signOutButton.setOnClickListener(new View.OnClickListener(){
+        signOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mGoogleSignInClient.signOut().addOnCompleteListener(MainActivity.this, new OnCompleteListener<Void>() {
@@ -127,5 +130,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         onStart();
+    }
+
+    //if in database then just go to home
+    public void openHomeScreenActivity() {
+        Intent intent = new Intent(this,HomeScreenActivity.class);
+        startActivity(intent);
+    }
+
+    //for first time users or something
+    public void openUserQuestionsActivity() {
+        Intent intent = new Intent(this,UserQuestionsActivity.class);
+        startActivity(intent);
     }
 }
