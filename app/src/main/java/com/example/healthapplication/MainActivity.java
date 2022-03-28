@@ -36,6 +36,19 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //TODO remove this
+        //for quicker testing to get to wherever
+        Button skipLogin = findViewById(R.id.loginSkip);
+        //skipLogin.setVisibility(View.INVISIBLE);
+        skipLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //openHomeScreenActivity();
+                openUserQuestionsActivity();
+            }
+        });
+
         // Initialize the Google Login Feature
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
