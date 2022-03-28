@@ -1,5 +1,6 @@
 package com.example.healthapplication;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -10,8 +11,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class UserQuestionsActivity extends AppCompatActivity {
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
+
+public class UserQuestionsActivity extends AppCompatActivity {
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +41,28 @@ public class UserQuestionsActivity extends AppCompatActivity {
                     int weight = Integer.parseInt(weightText.getText().toString().trim());
                     int score = 0;
                     User newUser = new User(age,weight,height,score);
+
+                    //adding user to database
+                    Map<String, Object> user = new HashMap<>();
+                    user.put("age", age);
+                    user.put("height", height);
+                    user.put("last", weight);
+                    user.put("born",score);
+    // Add a new document with a generated ID
+                    db.collection("users")
+                            .add(user)
+                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    Log.d("Users", "User added with ID: " + documentReference.getId());
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w("Users", "Error adding user", e);
+                                }
+                            });
                     openHomeScreenActivity(newUser);
                 }
                 catch (NumberFormatException e){

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "167250147581",
+    "firebase_url": "https://healthapp-eb78f-default-rtdb.firebaseio.com",
+    "project_id": "healthapp-eb78f",
+    "storage_bucket": "healthapp-eb78f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:167250147581:android:512db061396cbce7a5e694",
+        "android_client_info": {
+          "package_name": "com.example.healthapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "167250147581-tuneb9unkljjnv8vpp9rftk51f4ao020.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAimZvzTy3_wurOuZ4K4onMBKpBW_otvo4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "167250147581-tuneb9unkljjnv8vpp9rftk51f4ao020.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
