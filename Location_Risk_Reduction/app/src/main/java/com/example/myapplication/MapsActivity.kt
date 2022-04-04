@@ -6,6 +6,7 @@ import android.Manifest.permission.ACTIVITY_RECOGNITION
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -14,16 +15,15 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
+import android.widget.CompoundButton
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.example.myapplication.databinding.ActivityMapsBinding
 import com.google.android.gms.location.*
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.annotations.AfterPermissionGranted
 
@@ -112,6 +112,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, SensorEventListene
             KEY_IS_TRACKING, false)
         set(value) = this.getSharedPreferences(KEY_SHARED_PREFERENCE, Context.MODE_PRIVATE).edit().putBoolean(
             KEY_IS_TRACKING, value).apply()
+    private var darkMode: Boolean
+        get() = this.getSharedPreferences(KEY_SHARED_PREFERENCE, Context.MODE_PRIVATE).getBoolean(
+            KEY_IS_TRACKING, false)
+        set(value) = this.getSharedPreferences(KEY_SHARED_PREFERENCE, Context.MODE_PRIVATE).edit().putBoolean(
+            KEY_IS_TRACKING, value).apply()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
@@ -126,7 +131,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, SensorEventListene
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
-        binding.startButton.setOnClickListener {
+        /*binding.startButton.setOnClickListener {
             mMap.clear()
 
             isTracking = true
@@ -142,12 +147,55 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, SensorEventListene
 
         if (isTracking) {
             startTracking()
-        }
+        }*/
+        binding.locationToggle.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                mMap.clear()
+
+                isTracking = true
+
+                updateAllDisplayText(0, 0f)
+
+                startTracking()
+            } else {
+                endButtonClicked()
+            }
+        })
+        binding.themeToggle.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                darkMode = true
+                updateTheme()
+            } else {
+                darkMode = false
+                updateTheme()
+            }
+        })
     }
 
     private fun updateButtonStatus() {
-        binding.startButton.isEnabled = !isTracking
-        binding.endButton.isEnabled = isTracking
+        //binding.startButton.isEnabled = !isTracking
+        //binding.endButton.isEnabled = isTracking
+        binding.locationToggle.setChecked(isTracking)
+    }
+
+    private fun updateTheme(){
+        if(darkMode){
+            binding.rootLayout.setBackgroundColor(Color.rgb(33, 33, 33));
+            binding.titleTextView.setTextColor(Color.rgb(255, 255, 255));
+            binding.averagePaceTextView.setTextColor(Color.rgb(255, 255, 255));
+            binding.numberOfStepTextView.setTextColor(Color.rgb(255, 255, 255));
+            binding.totalDistanceTextView.setTextColor(Color.rgb(255, 255, 255));
+            binding.locationToggle.setTextColor(Color.rgb(255, 255, 255));
+            binding.themeToggle.setTextColor(Color.rgb(255, 255, 255));
+        }else{
+            binding.rootLayout.setBackgroundColor(Color.rgb(255, 255, 255));
+            binding.titleTextView.setTextColor(Color.rgb(0, 0, 0));
+            binding.averagePaceTextView.setTextColor(Color.rgb(0, 0, 0));
+            binding.numberOfStepTextView.setTextColor(Color.rgb(0, 0, 0));
+            binding.totalDistanceTextView.setTextColor(Color.rgb(0, 0, 0));
+            binding.locationToggle.setTextColor(Color.rgb(0, 0, 0));
+            binding.themeToggle.setTextColor(Color.rgb(0, 0, 0));
+        }
     }
 
     private fun updateAllDisplayText(stepCount: Int, totalDistanceTravelled: Float) {
@@ -166,6 +214,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, SensorEventListene
                 updateButtonStatus()
                 stopTracking()
             }.setNegativeButton("Cancel") { _, _ ->
+                updateButtonStatus()
             }
             .create()
             .show()
