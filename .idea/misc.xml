@@ -3,9 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/nolog/Desktop/EE364D/health-application/app/src/main/res/layout/activity_home_screen.xml" value="0.16666666666666666" />
-        <entry key="..\:/Users/nolog/Desktop/EE364D/health-application/app/src/main/res/layout/activity_main.xml" value="0.5" />
-        <entry key="..\:/Users/nolog/Desktop/EE364D/health-application/app/src/main/res/layout/activity_user_questions.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/activity_home_screen.xml" value="0.4021168805550838" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19610507246376813" />
       </map>
     </option>

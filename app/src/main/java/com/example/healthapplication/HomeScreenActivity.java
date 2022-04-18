@@ -34,7 +34,12 @@ public class HomeScreenActivity extends AppCompatActivity {
                 .build();
         GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-
+        Bundle extras = getIntent().getExtras();
+        String age = extras.getString("age");
+        String email = extras.getString("email");
+        String height = extras.getString("height");
+        TextView textview_age = findViewById(R.id.homeScreenName);
+        textview_age.setText("Age: " + age + "\n" + "Email: " + email + "\n" + "height: " + height + "inches");
         Button homescreenSignOut = findViewById(R.id.homescreenSignOut);
         homescreenSignOut.setOnClickListener(new View.OnClickListener() {
             @Override

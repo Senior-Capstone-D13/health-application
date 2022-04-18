@@ -12,8 +12,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
@@ -28,9 +30,15 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    GoogleSignInAccount account;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -83,6 +91,11 @@ public class MainActivity extends AppCompatActivity {
         if (resultCode == '0') {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignIn(task);
+            Intent pass_credentials_to_user_questions = new Intent(MainActivity.this, UserQuestionsActivity.class);
+            pass_credentials_to_user_questions.putExtra("credentials", account);
+            startActivity(pass_credentials_to_user_questions);
+            openUserQuestionsActivity();
+            // Check for login
             TextView login_textview = findViewById(R.id.maintextview);
             login_textview.setText("Hello " + task.getResult().getGivenName());
             SignInButton signInButton1 = findViewById(R.id.sign_in_button);
@@ -95,9 +108,10 @@ public class MainActivity extends AppCompatActivity {
     // Handle potential exception for the sign in process
     public void handleSignIn(Task<GoogleSignInAccount> completed_task) {
         try {
-            GoogleSignInAccount account = completed_task.getResult(ApiException.class); // Account contains all account information
+            account = completed_task.getResult(ApiException.class); // Account contains all account information
         } catch (ApiException e) {
             Log.w(TAG, "Exception code is " + e.getStatusCode());
+
         }
     }
 
@@ -109,6 +123,37 @@ public class MainActivity extends AppCompatActivity {
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         if (account != null) {
             // User has already logged in, so go to the next page with his information
+//            Intent pass_credentials_to_user_questions = new Intent(MainActivity.this, UserQuestionsActivity.class);
+//            pass_credentials_to_user_questions.putExtra("credentials", account);
+//            startActivity(pass_credentials_to_user_questions);
+            DocumentReference docRef = db.collection("users").document(account.getEmail());
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Log.d(ContentValues.TAG, "DocumentSnapshot data: " + document.getData());
+                            Intent intent = new Intent(MainActivity.this, HomeScreenActivity.class);
+                            String age = document.get("age").toString();
+                            String height = document.get("height").toString();
+                            String email = document.get("email").toString();
+                            intent.putExtra("age", age);
+                            intent.putExtra("height", height);
+                            intent.putExtra("email", email);
+                            startActivity(intent);
+                        } else {
+                            Log.d(ContentValues.TAG, "No such document");
+                            Intent pass_credentials_to_user_questions = new Intent(MainActivity.this, UserQuestionsActivity.class);
+                            pass_credentials_to_user_questions.putExtra("credentials", account);
+                            startActivity(pass_credentials_to_user_questions);
+                        }
+                    } else {
+                        Log.d(ContentValues.TAG, "get failed with ", task.getException());
+                    }
+                }
+            });
+
             TextView user_text_view = findViewById(R.id.maintextview);
             user_text_view.setText("Hello " + account.getGivenName());
             SignInButton signInButton1 = findViewById(R.id.sign_in_button);
