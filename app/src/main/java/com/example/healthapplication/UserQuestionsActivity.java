@@ -50,6 +50,9 @@ public class UserQuestionsActivity extends AppCompatActivity {
                     int height = Integer.parseInt(heightText.getText().toString().trim());
                     int weight = Integer.parseInt(weightText.getText().toString().trim());
                     int score = 0;
+                    Map<String, String> received_challenges = new HashMap<>();
+                    Map<String, String> sent_challenges = new HashMap<>();
+                    Map<String, String> accepted_challenges = new HashMap<>();
                     User newUser = new User(age,weight,height,score);
                     Bundle extras = getIntent().getExtras();
                     GoogleSignInAccount account = (GoogleSignInAccount) extras.get("credentials");
@@ -60,6 +63,9 @@ public class UserQuestionsActivity extends AppCompatActivity {
                     user.put("height", height);
                     user.put("weight", weight);
                     user.put("score",score);
+                    user.put("received_challenges", received_challenges);
+                    user.put("sent_challenges", sent_challenges);
+                    user.put("accepted_challenges", accepted_challenges);
     // Add a new document with a generated ID
 //                    db.collection("users")
 //                            .document(account.getEmail())

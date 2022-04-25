@@ -6,22 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".HomeScreenActivity">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="123dp"
-        android:layout_height="59dp"
-        android:layout_marginTop="336dp"
-        android:text="HomeScreenActivy"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/homescreenSignOut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
         android:text="SignOut"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -30,21 +20,26 @@
         android:id="@+id/homescreenGoToSteps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="76dp"
         android:text="Go to Steps"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="@+id/textView" />
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="146dp" />
 
     <TextView
         android:id="@+id/homeScreenName"
         android:layout_width="212dp"
         android:layout_height="137dp"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="132dp"
-        android:layout_marginBottom="133dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="8dp"
         android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintStart_toEndOf="@+id/homescreenSignOut"
         app:layout_constraintTop_toTopOf="@+id/homescreenSignOut" />
+
+    <Button
+        android:id="@+id/challenges"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="challenges"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="85dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
