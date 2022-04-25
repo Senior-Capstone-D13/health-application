@@ -3,7 +3,9 @@ plugins {
     id 'com.google.gms.google-services'
 }
 
-
+def secretkeyPropertiesFile = rootProject.file("secretkey.properties")
+def secretkeyProperties = new Properties()
+secretkeyProperties.load(new FileInputStream(secretkeyPropertiesFile))
 android {
     compileSdk 32
 
@@ -13,7 +15,7 @@ android {
         targetSdk 32
         versionCode 1
         versionName "1.0"
-
+        buildConfigField("String", "SECRET_KEY", secretkeyProperties['SECRET_KEY'])
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

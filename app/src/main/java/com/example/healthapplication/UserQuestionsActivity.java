@@ -26,8 +26,15 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.CipherInputStream;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 public class UserQuestionsActivity extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -55,7 +62,11 @@ public class UserQuestionsActivity extends AppCompatActivity {
                     GoogleSignInAccount account = (GoogleSignInAccount) extras.get("credentials");
                     //adding user to database
                     Map<String, Object> user = new HashMap<>();
-                    user.put("email", account.getEmail());
+
+// Encrypt the user Email using an instance of the CipherHandler Class
+                    CipherHandler cipherHandler = new CipherHandler();
+                    String encrypted_email = cipherHandler.encrypt_message(account.getEmail());
+                    user.put("email", encrypted_email);
                     user.put("age", age);
                     user.put("height", height);
                     user.put("weight", weight);
@@ -77,19 +88,32 @@ public class UserQuestionsActivity extends AppCompatActivity {
 //                                }
 //                            });
                     CollectionReference user_collection = db.collection("users");
-                    user_collection.document(account.getEmail()).set(user);
+                    user_collection.document(encrypted_email).set(user);
 //                    openHomeScreenActivity(user, account);
                     Intent go_back_home = new Intent(UserQuestionsActivity.this, MainActivity.class);
                     startActivity(go_back_home);
                 }
                 catch (NumberFormatException e){
+                } catch (NoSuchPaddingException e) {
+                    e.printStackTrace();
+                } catch (IllegalBlockSizeException e) {
+                    e.printStackTrace();
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                } catch (BadPaddingException e) {
+                    e.printStackTrace();
+                } catch (InvalidKeyException e) {
+                    e.printStackTrace();
                 }
             }
         });
     }
 
-    public void openHomeScreenActivity(Map user, GoogleSignInAccount account) {
-        DocumentReference docRef = db.collection("users").document(account.getEmail());
+    public void openHomeScreenActivity(Map user, GoogleSignInAccount account) throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+        // Cipher Decryption before fetching the document
+        CipherHandler cipherHandler = new CipherHandler();
+        String encrypted_message = cipherHandler.encrypt_message(account.getEmail());
+        DocumentReference docRef = db.collection("users").document(encrypted_message);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
