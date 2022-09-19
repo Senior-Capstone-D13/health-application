@@ -27,8 +27,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.w3c.dom.Text;
 
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 public class ChallengesActivity extends AppCompatActivity {
 
@@ -63,9 +69,23 @@ public class ChallengesActivity extends AppCompatActivity {
         ArrayList<String> received_challenges_emails = new ArrayList<>();
         ArrayList<String> current_challenges_emails = new ArrayList<>();
         ArrayList<String> sent_challenges_emails = new ArrayList<>();
-
+        CipherHandler ch = new CipherHandler();
         // Scan through the database for initial settings
-        DocumentReference docRef = db.collection("users").document(account.getEmail());
+        String encrypted_email = "default";
+        try {
+            encrypted_email = ch.encrypt_message(account.getEmail());
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        }
+        DocumentReference docRef = db.collection("users").document(encrypted_email);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -122,19 +142,20 @@ public class ChallengesActivity extends AppCompatActivity {
 
         // Add On Button Clickers
         Button accept_challenge_button = findViewById(R.id.button);
+        String finalEncrypted_email = encrypted_email;
         accept_challenge_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Change received challenges to accepted challenges
                 CollectionReference user_collection = db.collection("users");
                 HashMap<String, String> blank_hash_map = new HashMap<>();
-                user_collection.document(account.getEmail()).update("accepted_challenges", reference_hashmap);
-                user_collection.document(account.getEmail()).update("received_challenges", blank_hash_map);
+                user_collection.document(finalEncrypted_email).update("accepted_challenges", reference_hashmap);
+                user_collection.document(finalEncrypted_email).update("received_challenges", blank_hash_map);
                 // On the other person's database, change sent challenges to accepted challenges
 
                 user_collection.document(received_challenges_emails.get(0)).update("sent_challenges", blank_hash_map);
                 HashMap<String, String> opposite_hash_map = new HashMap<>();
-                opposite_hash_map.put(account.getEmail(), reference_hashmap.get(received_challenges_emails.get(0)));
+                opposite_hash_map.put(finalEncrypted_email, reference_hashmap.get(received_challenges_emails.get(0)));
                 user_collection.document(received_challenges_emails.get(0)).update("accepted_challenges", opposite_hash_map);
             }
         });
@@ -147,12 +168,26 @@ public class ChallengesActivity extends AppCompatActivity {
                 EditText challenged_email_edit_text = findViewById(R.id.editTextTextPersonName);
                 EditText challenge_edit_text = findViewById(R.id.editTextTextPersonName2);
                 String email = challenged_email_edit_text.getText().toString();
+                try {
+                    email = ch.encrypt_message(email);
+                } catch (NoSuchPaddingException e) {
+                    e.printStackTrace();
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                } catch (InvalidKeyException e) {
+                    e.printStackTrace();
+                } catch (IllegalBlockSizeException e) {
+                    e.printStackTrace();
+                } catch (BadPaddingException e) {
+                    e.printStackTrace();
+                }
                 String challenge = challenge_edit_text.getText().toString();
                 HashMap<String, String> sent_challenges_hash_map = new HashMap<>();
                 HashMap<String, String> received_challenges_hash_map = new HashMap<>();
                 // If the email and challenges are valid, then update sent_challenges of this user and received challenges of other user
                 CollectionReference user_collection = db.collection("users");
                 DocumentReference docRef = db.collection("users").document(email);
+                String finalEmail = email;
                 docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -161,12 +196,12 @@ public class ChallengesActivity extends AppCompatActivity {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
                                 // Add sent_challenges to this user
-                                sent_challenges_hash_map.put(email, challenge);
+                                sent_challenges_hash_map.put(finalEmail, challenge);
                                 db.collection("users").document(account.getEmail()).update("sent_challenges", sent_challenges_hash_map);
 
                                 // Add received_challenges to other user
                                 received_challenges_hash_map.put(account.getEmail(), challenge);
-                                db.collection("users").document(email).update("received_challenges", received_challenges_hash_map);
+                                db.collection("users").document(finalEmail).update("received_challenges", received_challenges_hash_map);
                                 challenge_edit_text.setText("Challenge Sent!!");
                             } else {
                                 Log.d(TAG, "No such document");
