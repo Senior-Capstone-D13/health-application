@@ -63,6 +63,15 @@ public class HomeScreenActivity extends AppCompatActivity {
             }
 
         });
+
+        Button go_to_challenges = findViewById(R.id.challenges);
+        go_to_challenges.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomeScreenActivity.this, ChallengesActivity.class));
+                // Go to Challenges Screen
+            }
+        });
     }
 
     //for first time users or something
