@@ -35,7 +35,13 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 public class MainActivity extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -48,6 +54,13 @@ public class MainActivity extends AppCompatActivity {
 
         //TODO remove this
         //for quicker testing to get to wherever
+        //Uncomment to regenerate the initial key
+//        CipherHandler cipher_handler = new CipherHandler();
+//        try {
+//            cipher_handler.get_initial_key();
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//        }
         Button skipLogin = findViewById(R.id.loginSkip);
         //skipLogin.setVisibility(View.INVISIBLE);
         skipLogin.setOnClickListener(new View.OnClickListener() {
@@ -127,7 +140,27 @@ public class MainActivity extends AppCompatActivity {
 //            Intent pass_credentials_to_user_questions = new Intent(MainActivity.this, UserQuestionsActivity.class);
 //            pass_credentials_to_user_questions.putExtra("credentials", account);
 //            startActivity(pass_credentials_to_user_questions);
-            DocumentReference docRef = db.collection("users").document(account.getEmail());
+
+            // Access Cipher Class Again
+            CipherHandler cipher_handler = new CipherHandler();
+            String encrypted_email = null;
+            try {
+                encrypted_email = cipher_handler.encrypt_message(account.getEmail());
+
+            } catch (NoSuchPaddingException e) {
+                e.printStackTrace();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            } catch (InvalidKeyException e) {
+                e.printStackTrace();
+            } catch (IllegalBlockSizeException e) {
+                e.printStackTrace();
+            } catch (BadPaddingException e) {
+                e.printStackTrace();
+            }
+
+            assert encrypted_email != null;
+            DocumentReference docRef = db.collection("users").document(encrypted_email);
             docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -139,6 +172,19 @@ public class MainActivity extends AppCompatActivity {
                             String age = document.get("age").toString();
                             String height = document.get("height").toString();
                             String email = document.get("email").toString();
+                            try {
+                                email = cipher_handler.decrypt_message(email);
+                            } catch (NoSuchPaddingException e) {
+                                e.printStackTrace();
+                            } catch (NoSuchAlgorithmException e) {
+                                e.printStackTrace();
+                            } catch (InvalidKeyException e) {
+                                e.printStackTrace();
+                            } catch (IllegalBlockSizeException e) {
+                                e.printStackTrace();
+                            } catch (BadPaddingException e) {
+                                e.printStackTrace();
+                            }
                             intent.putExtra("age", age);
                             intent.putExtra("height", height);
                             intent.putExtra("email", email);
