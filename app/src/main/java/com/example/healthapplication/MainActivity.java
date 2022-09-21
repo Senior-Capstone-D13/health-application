@@ -66,8 +66,8 @@ public class MainActivity extends AppCompatActivity {
         skipLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //openHomeScreenActivity();
-                openUserQuestionsActivity();
+                openHomeScreenActivity();
+                //openUserQuestionsActivity();
             }
         });
 

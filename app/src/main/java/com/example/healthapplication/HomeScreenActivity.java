@@ -2,12 +2,17 @@ package com.example.healthapplication;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -22,13 +27,19 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 public class HomeScreenActivity extends AppCompatActivity {
+    private ConstraintLayout homeScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
+        //initializeGoogle();
+        initializeMenu();
+    }
 
-        String name = findViewById(R.id.homeScreenName).toString();
+    void initializeGoogle(){
+        TextView homeScreenName = findViewById(R.id.homeScreenName);
+        String name = homeScreenName.toString();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -38,8 +49,9 @@ public class HomeScreenActivity extends AppCompatActivity {
         String age = extras.getString("age");
         String email = extras.getString("email");
         String height = extras.getString("height");
-        TextView textview_age = findViewById(R.id.homeScreenName);
-        textview_age.setText("Age: " + age + "\n" + "Email: " + email + "\n" + "height: " + height + "inches");
+
+        homeScreenName.setText("Age: " + age + "\n" + "Email: " + email + "\n" + "height: " + height + "inches");
+
         Button homescreenSignOut = findViewById(R.id.homescreenSignOut);
         homescreenSignOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,34 +61,61 @@ public class HomeScreenActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         finish();
                         startActivity(new Intent(HomeScreenActivity.this, MainActivity.class));
+                        //overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
                     }
                 });
             }
-
         });
 
-        Button homescreenGoToSteps = findViewById(R.id.homescreenGoToSteps);
-        homescreenGoToSteps.setOnClickListener(new View.OnClickListener() {
+    }
+
+    void initializeMenu(){
+
+        homeScreen = (ConstraintLayout) findViewById(R.id.home_screen);
+
+        Button createPopUpWindow = findViewById(R.id.homescreenMenuButton);
+        createPopUpWindow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openStepsScreen();
+                //Menu stuff
+                LayoutInflater layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+                ViewGroup container = (ViewGroup) layoutInflater.inflate(R.layout.home_menu_popup,null);
+                int xStart = 400;
+                int height = 1650;
+                PopupWindow window = new PopupWindow(container,xStart,height,true);
+
+                window.setAnimationStyle(-1);//-1 default
+                window.showAtLocation(homeScreen, Gravity.NO_GRAVITY,0,500);
+
+                //Buttons inside menu
+                setGoToSteps();
+                setGoToChallenges();
             }
-
         });
+    }
 
+    public void setGoToChallenges(){
         Button go_to_challenges = findViewById(R.id.challenges);
         go_to_challenges.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(HomeScreenActivity.this, ChallengesActivity.class));
+                overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
                 // Go to Challenges Screen
             }
         });
     }
 
     //for first time users or something
-    public void openStepsScreen() {
-
+    public void setGoToSteps() {
         //TODO Implement
+        Button homescreenGoToSteps = findViewById(R.id.homescreenGoToSteps);
+        homescreenGoToSteps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //DO STUFF
+            }
+        });
     }
+
 }
