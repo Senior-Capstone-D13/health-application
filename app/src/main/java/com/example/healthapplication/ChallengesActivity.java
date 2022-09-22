@@ -43,11 +43,21 @@ public class ChallengesActivity extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_challenges);
-    }
 
+        Button dismiss_button = findViewById(R.id.dismissButton);
+        dismiss_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent go_back_to_main = new Intent(ChallengesActivity.this, MainActivity.class);
+                startActivity(go_back_to_main);
+            }
+        });
+
+    }
     @Override
     protected void onStart() {
         super.onStart();
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -55,15 +65,15 @@ public class ChallengesActivity extends AppCompatActivity {
         GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 
-        TextView name_text_view = findViewById(R.id.textView4);
-        TextView current_challenges_display = findViewById(R.id.textView10);
-        TextView current_challenges = findViewById(R.id.textView11);
-        TextView sent_challenges_display = findViewById(R.id.textView12);
-        TextView sent_challenges = findViewById(R.id.textView13);
+        TextView name_text_view = findViewById(R.id.userName);
+        //TextView currentChallengeText = findViewById(R.id.currentChallengeText);
+        TextView current_challenges = findViewById(R.id.currentChallengeInfo);
+        //TextView sent_challenges_display = findViewById(R.id.sentChallengesDisplay);
+        TextView sent_challenges = findViewById(R.id.sentChallengeText);
 
         name_text_view.setText(account.getGivenName());
-        current_challenges_display.setText("Current Challenges");
-        sent_challenges_display.setText("Sent Challenges");
+        //currentChallengeText.setText("Current Challenges");
+        //sent_challenges_display.setText("Sent Challenges");
         // Initialize HashMap to use semi-globally
         HashMap<String, String> reference_hashmap = new HashMap<>();
         ArrayList<String> received_challenges_emails = new ArrayList<>();
@@ -97,14 +107,14 @@ public class ChallengesActivity extends AppCompatActivity {
 
                         HashMap<String, String> received_challenges = (HashMap<String, String>) document.get("received_challenges");
                         if(received_challenges.size() != 0) {
-                            TextView received_challenges_text_view = findViewById(R.id.textView6);
+                            TextView received_challenges_text_view = findViewById(R.id.receivedChallengeInfo);
                             received_challenges_emails.addAll(received_challenges.keySet());
                             received_challenges_text_view.setText("Email: " + received_challenges_emails.get(0) + " Challenge: "
                                     + received_challenges.get(received_challenges_emails.get(0)));
                             reference_hashmap.put(received_challenges_emails.get(0), received_challenges.get(received_challenges_emails.get(0)));
                         }
                         else{
-                            TextView received_challenges_text_view = findViewById(R.id.textView6);
+                            TextView received_challenges_text_view = findViewById(R.id.receivedChallengeInfo);
                             received_challenges_text_view.setText("You currently do not have any receieved challenges");
                         }
 
@@ -141,7 +151,7 @@ public class ChallengesActivity extends AppCompatActivity {
         });
 
         // Add On Button Clickers
-        Button accept_challenge_button = findViewById(R.id.button);
+        Button accept_challenge_button = findViewById(R.id.acceptButton);
         String finalEncrypted_email = encrypted_email;
         accept_challenge_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,13 +170,13 @@ public class ChallengesActivity extends AppCompatActivity {
             }
         });
 
-        Button send_challenge_button = findViewById(R.id.button2);
+        Button send_challenge_button = findViewById(R.id.sendButton);
         send_challenge_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Capture the current TextBoxes
-                EditText challenged_email_edit_text = findViewById(R.id.editTextTextPersonName);
-                EditText challenge_edit_text = findViewById(R.id.editTextTextPersonName2);
+                EditText challenged_email_edit_text = findViewById(R.id.challengedEmailText);
+                EditText challenge_edit_text = findViewById(R.id.customChallenge);
                 String email = challenged_email_edit_text.getText().toString();
                 try {
                     email = ch.encrypt_message(email);
@@ -214,15 +224,6 @@ public class ChallengesActivity extends AppCompatActivity {
                 });
 
                 // Else send an error message
-            }
-        });
-
-        Button dismiss_button = findViewById(R.id.button3);
-        dismiss_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent go_back_to_main = new Intent(ChallengesActivity.this, MainActivity.class);
-                startActivity(go_back_to_main);
             }
         });
     }

@@ -35,6 +35,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home_screen);
         //initializeGoogle();
         initializeMenu();
+
     }
 
     void initializeGoogle(){
@@ -87,21 +88,26 @@ public class HomeScreenActivity extends AppCompatActivity {
                 window.setAnimationStyle(-1);//-1 default
                 window.showAtLocation(homeScreen, Gravity.NO_GRAVITY,0,500);
 
-                //Buttons inside menu
-                setGoToSteps();
-                setGoToChallenges();
-            }
-        });
-    }
 
-    public void setGoToChallenges(){
-        Button go_to_challenges = findViewById(R.id.challenges);
-        go_to_challenges.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(HomeScreenActivity.this, ChallengesActivity.class));
-                overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
-                // Go to Challenges Screen
+                //Buttons inside menu
+                Button go_to_challenges = window.getContentView().findViewById(R.id.challenges);
+                //Button go_to_challenges = findViewById(R.id.challenges);
+                go_to_challenges.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(HomeScreenActivity.this, ChallengesActivity.class));
+                        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+                        // Go to Challenges Screen
+                    }
+                });
+/*
+                Button homescreenGoToSteps = findViewById(R.id.homescreenGoToSteps);
+                homescreenGoToSteps.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //DO STUFF
+                    }
+                });*/
             }
         });
     }
@@ -109,13 +115,6 @@ public class HomeScreenActivity extends AppCompatActivity {
     //for first time users or something
     public void setGoToSteps() {
         //TODO Implement
-        Button homescreenGoToSteps = findViewById(R.id.homescreenGoToSteps);
-        homescreenGoToSteps.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //DO STUFF
-            }
-        });
     }
 
 }
