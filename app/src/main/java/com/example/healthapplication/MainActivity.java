@@ -66,8 +66,8 @@ public class MainActivity extends AppCompatActivity {
         skipLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openHomeScreenActivity();
-                //openUserQuestionsActivity();
+                //openHomeScreenActivity();
+                openUserQuestionsActivity();
             }
         });
 
@@ -103,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == '0') {
+
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignIn(task);
             Intent pass_credentials_to_user_questions = new Intent(MainActivity.this, UserQuestionsActivity.class);

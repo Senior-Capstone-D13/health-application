@@ -33,8 +33,9 @@ public class HomeScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
-        //initializeGoogle();
+        initializeGoogle();
         initializeMenu();
+
 
     }
 
@@ -86,7 +87,7 @@ public class HomeScreenActivity extends AppCompatActivity {
                 PopupWindow window = new PopupWindow(container,xStart,height,true);
 
                 window.setAnimationStyle(-1);//-1 default
-                window.showAtLocation(homeScreen, Gravity.NO_GRAVITY,0,500);
+                window.showAtLocation(homeScreen, Gravity.LEFT,0,500);
 
 
                 //Buttons inside menu
@@ -96,18 +97,11 @@ public class HomeScreenActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         startActivity(new Intent(HomeScreenActivity.this, ChallengesActivity.class));
-                        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+                        overridePendingTransition(android.R.anim.slide_in_left,android.R.anim.slide_out_right);
                         // Go to Challenges Screen
                     }
                 });
-/*
-                Button homescreenGoToSteps = findViewById(R.id.homescreenGoToSteps);
-                homescreenGoToSteps.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        //DO STUFF
-                    }
-                });*/
+
             }
         });
     }

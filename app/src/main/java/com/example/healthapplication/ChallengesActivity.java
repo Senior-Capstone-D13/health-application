@@ -9,9 +9,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -38,20 +43,13 @@ import javax.crypto.NoSuchPaddingException;
 
 public class ChallengesActivity extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_challenges);
 
-        Button dismiss_button = findViewById(R.id.dismissButton);
-        dismiss_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent go_back_to_main = new Intent(ChallengesActivity.this, MainActivity.class);
-                startActivity(go_back_to_main);
-            }
-        });
 
     }
     @Override
@@ -65,15 +63,18 @@ public class ChallengesActivity extends AppCompatActivity {
         GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 
+
         TextView name_text_view = findViewById(R.id.userName);
-        //TextView currentChallengeText = findViewById(R.id.currentChallengeText);
+        TextView currentChallengeText = findViewById(R.id.currentChallengeText);
         TextView current_challenges = findViewById(R.id.currentChallengeInfo);
-        //TextView sent_challenges_display = findViewById(R.id.sentChallengesDisplay);
+        TextView received_challenges_text_view = findViewById(R.id.receivedChallengeInfo);
+
+        TextView sent_challenges_display = findViewById(R.id.sentChallengesDisplay);
         TextView sent_challenges = findViewById(R.id.sentChallengeText);
 
         name_text_view.setText(account.getGivenName());
-        //currentChallengeText.setText("Current Challenges");
-        //sent_challenges_display.setText("Sent Challenges");
+        currentChallengeText.setText("Current Challenges");
+        sent_challenges_display.setText("Sent Challenges");
         // Initialize HashMap to use semi-globally
         HashMap<String, String> reference_hashmap = new HashMap<>();
         ArrayList<String> received_challenges_emails = new ArrayList<>();
@@ -107,14 +108,12 @@ public class ChallengesActivity extends AppCompatActivity {
 
                         HashMap<String, String> received_challenges = (HashMap<String, String>) document.get("received_challenges");
                         if(received_challenges.size() != 0) {
-                            TextView received_challenges_text_view = findViewById(R.id.receivedChallengeInfo);
                             received_challenges_emails.addAll(received_challenges.keySet());
                             received_challenges_text_view.setText("Email: " + received_challenges_emails.get(0) + " Challenge: "
                                     + received_challenges.get(received_challenges_emails.get(0)));
                             reference_hashmap.put(received_challenges_emails.get(0), received_challenges.get(received_challenges_emails.get(0)));
                         }
                         else{
-                            TextView received_challenges_text_view = findViewById(R.id.receivedChallengeInfo);
                             received_challenges_text_view.setText("You currently do not have any receieved challenges");
                         }
 
@@ -226,5 +225,66 @@ public class ChallengesActivity extends AppCompatActivity {
                 // Else send an error message
             }
         });
+        ImageView dismiss_button = findViewById(R.id.challengesGoHome);
+        dismiss_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //XXX
+                //need to change so don't have to go to login screen
+                //to get google information
+                Intent go_back_to_main = new Intent(ChallengesActivity.this, MainActivity.class);
+                startActivity(go_back_to_main);
+            }
+        });
+
+        setSendVisibility(View.INVISIBLE);
+        Button swapButton = findViewById(R.id.swapButton);
+        swapButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                if(accept_challenge_button.getVisibility() == View.VISIBLE){
+                    setAcceptVisibility(View.INVISIBLE);
+                    setSendVisibility(View.VISIBLE);
+                }else{
+                    setAcceptVisibility(View.VISIBLE);
+                    setSendVisibility(View.INVISIBLE);
+                }
+            }
+        });
     }
+
+    public void setAcceptVisibility(int visibility){
+        // Keep these visible
+        // TextView currentChallengeText = findViewById(R.id.currentChallengeText);
+        // TextView current_challenges = findViewById(R.id.currentChallengeInfo);
+        TextView name_text_view = findViewById(R.id.userName);
+        TextView received_challenges_text_view = findViewById(R.id.receivedChallengeInfo);
+        TextView receivedChallenges = findViewById(R.id.receivedChallenges);
+        Button acceptButton = findViewById(R.id.acceptButton);
+        Button rejectButton = findViewById(R.id.rejectButton);
+
+        name_text_view.setVisibility(visibility);
+        received_challenges_text_view.setVisibility(visibility);
+        receivedChallenges.setVisibility(visibility);
+        acceptButton.setVisibility(visibility);
+        rejectButton.setVisibility(visibility);
+    }
+
+    public void setSendVisibility(int visibility){
+        //Keep these visible
+        //TextView sent_challenges_display = findViewById(R.id.sentChallengesDisplay);
+        // TextView sent_challenges = findViewById(R.id.sentChallengeText);
+        EditText challenged_email_edit_text = findViewById(R.id.challengedEmailText);
+        EditText challenge_edit_text = findViewById(R.id.customChallenge);
+        TextView name = findViewById(R.id.Name);
+        TextView challengeToBeSent = findViewById(R.id.challengeToBeSent);
+        Button sendButton = findViewById(R.id.sendButton);
+
+        challenged_email_edit_text.setVisibility(visibility);
+        challenge_edit_text.setVisibility(visibility);
+        name.setVisibility(visibility);
+        challengeToBeSent.setVisibility(visibility);
+        sendButton.setVisibility(visibility);
+    }
+
 }

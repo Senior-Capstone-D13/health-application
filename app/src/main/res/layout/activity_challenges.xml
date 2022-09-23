@@ -6,153 +6,195 @@
     android:layout_height="match_parent"
     tools:context=".ChallengesActivity">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline4"
+
+    <ImageView
+        android:id="@+id/challengesGoHome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="16dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="395dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="17dp" />
-
-
-    <TextView
-        android:id="@+id/currentChallengeText"
-        android:layout_width="375dp"
-        android:layout_height="26dp"
-        android:layout_marginTop="7dp"
-        android:text="Current Challenges"
-        app:layout_constraintTop_toBottomOf="@+id/sendButton"
-        tools:layout_editor_absoluteX="16dp" />
-
-    <TextView
-        android:id="@+id/sentChallengeText"
-        android:layout_width="374dp"
-        android:layout_height="60dp"
-        android:text="sentChallengeText"
-        app:layout_constraintTop_toBottomOf="@+id/sentChallengesDisplay"
-        tools:layout_editor_absoluteX="16dp" />
-
-    <Button
-        android:id="@+id/dismissButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="22dp"
-        android:text="Dismiss"
-        app:layout_constraintTop_toBottomOf="@+id/sentChallengeText"
-        tools:layout_editor_absoluteX="155dp" />
-
-    <TextView
-        android:id="@+id/userName"
-        android:layout_width="381dp"
-        android:layout_height="32dp"
-        android:text="userName"
-        tools:layout_editor_absoluteX="14dp"
-        tools:layout_editor_absoluteY="37dp" />
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_revert" />
 
     <TextView
         android:id="@+id/currentChallengeInfo"
-        android:layout_width="376dp"
+        android:layout_width="0dp"
         android:layout_height="40dp"
-        android:layout_marginTop="7dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
         android:text="Current Challenge Info"
-        app:layout_constraintTop_toBottomOf="@+id/currentChallengeText"
-        tools:layout_editor_absoluteX="16dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/currentChallengeText" />
 
     <TextView
-        android:id="@+id/receivedChallengeInfo"
-        android:layout_width="381dp"
-        android:layout_height="34dp"
-        android:layout_marginTop="40dp"
-        android:text="received Challenge Info"
-        app:layout_constraintTop_toTopOf="@+id/receivedChallenges"
-        tools:layout_editor_absoluteX="14dp" />
-
-    <Button
-        android:id="@+id/acceptButton"
-        android:layout_width="131dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="40dp"
-        android:text="Accept"
-        app:layout_constraintTop_toTopOf="@+id/receivedChallengeInfo"
-        tools:layout_editor_absoluteX="140dp" />
+        android:id="@+id/currentChallengeText"
+        android:layout_width="0dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="17dp"
+        android:text="Current Challenges"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sendButton" />
 
     <TextView
         android:id="@+id/sentChallengesDisplay"
-        android:layout_width="377dp"
+        android:layout_width="0dp"
         android:layout_height="45dp"
-        android:text="Sent Challenges"
-        app:layout_constraintTop_toBottomOf="@+id/currentChallengeInfo"
-        tools:layout_editor_absoluteX="16dp" />
-
-    <EditText
-        android:id="@+id/challengedEmailText"
-        android:layout_width="384dp"
-        android:layout_height="51dp"
-        android:layout_marginTop="7dp"
-        android:ems="10"
-        android:inputType="text"
-        android:text="challenged Email Text"
-        app:layout_constraintTop_toBottomOf="@+id/Name"
-        tools:layout_editor_absoluteX="11dp" />
-
-    <EditText
-        android:id="@+id/customChallenge"
-        android:layout_width="376dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="7dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="custom challenge"
-        app:layout_constraintTop_toBottomOf="@+id/challengeToBeSent"
-        tools:layout_editor_absoluteX="16dp" />
-
-    <Button
-        android:id="@+id/sendButton"
-        android:layout_width="123dp"
-        android:layout_height="48dp"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="8dp"
-        android:text="Send"
-        app:layout_constraintTop_toBottomOf="@+id/customChallenge"
-        tools:layout_editor_absoluteX="142dp" />
+        android:layout_marginEnd="15dp"
+        android:text="Sent Challenges"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/currentChallengeInfo" />
+
+    <TextView
+        android:id="@+id/sentChallengeText"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="18dp"
+        android:text="sentChallengeText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sentChallengesDisplay" />
 
     <TextView
         android:id="@+id/receivedChallenges"
         android:layout_width="377dp"
         android:layout_height="33dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
         android:text="Received Challenges"
-        app:layout_constraintTop_toTopOf="@+id/userName"
-        tools:layout_editor_absoluteX="16dp" />
+        app:layout_constraintStart_toStartOf="@+id/userName"
+        app:layout_constraintTop_toBottomOf="@+id/userName" />
 
     <TextView
-        android:id="@+id/Name"
-        android:layout_width="381dp"
-        android:layout_height="23dp"
-        android:layout_marginTop="46dp"
-        android:text="Name"
-        app:layout_constraintTop_toTopOf="@+id/acceptButton"
-        tools:layout_editor_absoluteX="14dp" />
+        android:id="@+id/userName"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="264dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="264dp"
+        android:text="userName"
+        app:layout_constraintBottom_toTopOf="@+id/currentChallengeInfo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/swapButton"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/acceptButton"
+        android:layout_width="131dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="12dp"
+        android:text="Accept"
+        app:layout_constraintStart_toStartOf="@+id/customChallenge"
+        app:layout_constraintTop_toBottomOf="@+id/receivedChallengeInfo" />
+
+    <Button
+        android:id="@+id/rejectButton"
+        android:layout_width="131dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:text="Reject"
+        app:layout_constraintStart_toEndOf="@+id/acceptButton"
+        app:layout_constraintTop_toBottomOf="@+id/receivedChallengeInfo" />
 
     <TextView
         android:id="@+id/challengeToBeSent"
-        android:layout_width="377dp"
+        android:layout_width="0dp"
         android:layout_height="29dp"
-        android:layout_marginTop="7dp"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="17dp"
         android:text="Challenge to be sent"
-        app:layout_constraintTop_toBottomOf="@+id/challengedEmailText"
-        tools:layout_editor_absoluteX="16dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/challengedEmailText" />
+
+    <TextView
+        android:id="@+id/receivedChallengeInfo"
+        android:layout_width="381dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="20dp"
+        android:text="received Challenge Info"
+        app:layout_constraintStart_toStartOf="@+id/receivedChallenges"
+        app:layout_constraintTop_toTopOf="@+id/receivedChallenges" />
+
+    <TextView
+        android:id="@+id/Name"
+        android:layout_width="0dp"
+        android:layout_height="23dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="132dp"
+        android:layout_marginEnd="14dp"
+        android:text="Name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/customChallenge"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/challengeToBeSent" />
+
+    <EditText
+        android:id="@+id/challengedEmailText"
+        android:layout_width="0dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="11dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Name" />
+
+    <Button
+        android:id="@+id/sendButton"
+        android:layout_width="123dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:text="Send"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/customChallenge" />
+
+    <Button
+        android:id="@+id/swapButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:text="Swap"
+        app:layout_constraintStart_toEndOf="@+id/challengesGoHome"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
