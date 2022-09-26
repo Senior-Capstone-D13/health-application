@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HealthApplication" >
         <activity
+            android:name=".UITestActivity"
+            android:exported="false" />
+        <activity
             android:name=".ChallengesActivity"
             android:exported="false" />
         <activity

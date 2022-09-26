@@ -72,6 +72,15 @@ public class HomeScreenActivity extends AppCompatActivity {
                 // Go to Challenges Screen
             }
         });
+
+        Button go_to_uiTest = findViewById(R.id.uitest);
+        go_to_uiTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomeScreenActivity.this, UITestActivity.class));
+                // Go to UI Test Screen
+            }
+        });
     }
 
     //for first time users or something
