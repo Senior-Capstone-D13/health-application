@@ -53,13 +53,13 @@ public class CipherHandler {
 
             }        }
         String s2 = Base64.encodeToString(byte_of_encrypted_message, Base64.NO_WRAP);
-        s2 = s2.replace("/", "a");
+        s2 = s2.replace("/", "#");
         return s2;
     }
 
     public String decrypt_message(String message) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
         String key_value = BuildConfig.SECRET_KEY;
-        message = message.replace("a", "/");
+        message = message.replace("#", "/");
         byte [] byte_of_key = Base64.decode(key_value, Base64.NO_WRAP);
         SecretKey secret_key = new SecretKeySpec(byte_of_key, "AES");
         Cipher cipher = Cipher.getInstance("AES");
