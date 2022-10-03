@@ -67,7 +67,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //openHomeScreenActivity();
-                openUserQuestionsActivity();
+                //openUserQuestionsActivity();
+                Intent intent = new Intent(MainActivity.this,ChallengesActivityHandler.class);
+                startActivity(intent);
             }
         });
 
