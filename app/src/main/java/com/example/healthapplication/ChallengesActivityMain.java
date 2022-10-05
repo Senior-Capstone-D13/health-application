@@ -3,6 +3,7 @@ package com.example.healthapplication;
 import static android.content.ContentValues.TAG;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import androidx.annotation.NonNull;
@@ -38,8 +39,10 @@ import javax.crypto.NoSuchPaddingException;
 public class ChallengesActivityMain extends AppCompatActivity {
 
     private FragmentManager fragmentManager;
+
     private ChallengesActivityFragmentAccept acceptFragment;
     private ChallengesActivityFragmentSend sendFragment;
+    private Fragment currentFragment;
 
     GoogleSignInAccount account;
 
@@ -55,15 +58,8 @@ public class ChallengesActivityMain extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        //Only 1 view is active at time for fragment
-        // send stuff
-        if(sendFragment.getView() != null) {
-            initializeSendFragment();
-        }
-        // accept/reject stuff
-        if (acceptFragment.getView() != null) {
-            initializeAcceptFragment();
-        }
+        initializeSendFragment();
+        initializeAcceptFragment();
     }
 
     public void initializeFragments() {
@@ -71,12 +67,26 @@ public class ChallengesActivityMain extends AppCompatActivity {
         sendFragment = new ChallengesActivityFragmentSend();
 
         fragmentManager = getSupportFragmentManager();
+
+
+
+        //replace default container from xml with new container
+        currentFragment = acceptFragment;
         fragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer,acceptFragment, null)
                 .setReorderingAllowed(true)
                 .commit();
 
+        //add sendFragment to fragmentManager
+        //hide it so acceptFragment only one shown
+        fragmentManager.beginTransaction()
+                .add(R.id.fragmentContainer,sendFragment, null)
+                .setReorderingAllowed(true)
+                .hide(sendFragment)
+                .commit();
+
         //Change Fragment buttons
+        //updates currentFragment depending on selected fragment
         Button goAcceptFragment = findViewById(R.id.goAcceptFragment);
         goAcceptFragment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,11 +95,13 @@ public class ChallengesActivityMain extends AppCompatActivity {
                 fragmentManager.beginTransaction()
                         .setCustomAnimations(
                                 android.R.anim.slide_in_left, //Enter
-                                android.R.anim.fade_out //Exit
+                                R.anim.slide_out_right        //Exit
                         )
-                        .replace(R.id.fragmentContainer,acceptFragment, null)
+                        .hide(currentFragment)
+                        .show(acceptFragment)
                         .setReorderingAllowed(true)
                         .commit();
+                currentFragment = acceptFragment;
                 onStart();
             }
         });
@@ -100,16 +112,17 @@ public class ChallengesActivityMain extends AppCompatActivity {
             public void onClick(View view) {
                 fragmentManager.beginTransaction()
                         .setCustomAnimations(
-                                android.R.anim.slide_in_left, //Enter
-                                android.R.anim.fade_out //Exit
+                                android.R.anim.slide_in_left,  //Enter
+                                android.R.anim.slide_out_right //Exit
                         )
-                        .replace(R.id.fragmentContainer, sendFragment, null)
+                        .hide(currentFragment)
+                        .show(sendFragment)
                         .setReorderingAllowed(true)
                         .commit();
+                currentFragment = sendFragment;
                 onStart();
             }
         });
-
     }
 
     public void initializeButtons() {
@@ -233,7 +246,7 @@ public class ChallengesActivityMain extends AppCompatActivity {
         });
     }
 
-    public void initializeSendFragment(){
+    public void initializeSendFragment() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -242,8 +255,11 @@ public class ChallengesActivityMain extends AppCompatActivity {
         account = GoogleSignIn.getLastSignedInAccount(this);
 
         TextView sent_challenges = sendFragment.getView().findViewById(R.id.sentChallengeText);
+        EditText challenged_email_edit_text = sendFragment.getView().findViewById(R.id.challengedEmailText);
+        EditText challenge_edit_text = sendFragment.getView().findViewById(R.id.customChallenge);
 
         CipherHandler ch = new CipherHandler();
+        ArrayList<String> sent_challenges_emails = new ArrayList<>();
         // Scan through the database for initial settings
         String encrypted_email = "default";
         try {
@@ -265,8 +281,7 @@ public class ChallengesActivityMain extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Capture the current TextBoxes
-                EditText challenged_email_edit_text = sendFragment.getView().findViewById(R.id.challengedEmailText);
-                EditText challenge_edit_text = sendFragment.getView().findViewById(R.id.customChallenge);
+
                 String email = challenged_email_edit_text.getText().toString();
                 try {
                     email = ch.encrypt_message(email);
@@ -313,6 +328,31 @@ public class ChallengesActivityMain extends AppCompatActivity {
                     }
                 });
                 // Else send an error message
+                onStart();
+            }
+        });
+        DocumentReference docRef = db.collection("users").document(encrypted_email);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        // Get initial list of sent challenges that have not been accepted yet
+                        HashMap<String, String> sent_challenges_hash_map = (HashMap<String, String>) document.get("sent_challenges");
+                        if (sent_challenges_hash_map.size() != 0) {
+                            sent_challenges_emails.addAll(sent_challenges_hash_map.keySet());
+                            sent_challenges.setText("Email: " + sent_challenges_emails.get(0) + " Challenge: "
+                                    + sent_challenges_hash_map.get(sent_challenges_emails.get(0)));
+                        } else {
+                            sent_challenges.setText("You have not sent any challenges!");
+                        }
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
             }
         });
     }

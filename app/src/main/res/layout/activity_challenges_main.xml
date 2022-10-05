@@ -7,49 +7,65 @@
     tools:context=".ChallengesActivityMain">
 
     <!-- Note: Name is starting fragment for fragment view  -->
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainer"
         android:name="com.example.healthapplication.ChallengesActivityFragmentSend"
-        android:layout_width="414dp"
-        android:layout_height="0dp"
+        android:layout_width="425dp"
+        android:layout_height="555dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/goSendFragment"
-        app:layout_constraintVertical_bias="0.0"
         tools:layout="@layout/activity_challenges_fragment_send" />
 
-    <Button
-        android:id="@+id/goAcceptFragment"
+    <TextView
+        android:id="@+id/challengesLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="16dp"
-        android:text="Accept Challenges"
+        android:layout_marginBottom="15dp"
+        android:text="CHALLENGES"
+        android:textColor="@color/black"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toTopOf="@+id/goSendFragment"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.027"
-        app:layout_constraintStart_toEndOf="@+id/exitButton"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/goSendFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Send Challenges"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.755"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/goAcceptFragment" />
+        app:layout_constraintTop_toBottomOf="@+id/exitButton" />
 
     <Button
         android:id="@+id/exitButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginBottom="61dp"
+        android:layout_marginTop="10dp"
         android:text="Exit"
-        app:layout_constraintBottom_toTopOf="@+id/fragmentContainer"
+        app:layout_constraintBottom_toTopOf="@+id/challengesLabel"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/goAcceptFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="3dp"
+        android:text="Accept Challenges"
+        app:layout_constraintBaseline_toBaselineOf="@+id/goSendFragment"
+        app:layout_constraintEnd_toStartOf="@+id/goSendFragment"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/goSendFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:text="Send Challenges"
+        app:layout_constraintBottom_toTopOf="@+id/fragmentContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/goAcceptFragment"
+        app:layout_constraintTop_toBottomOf="@+id/challengesLabel" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

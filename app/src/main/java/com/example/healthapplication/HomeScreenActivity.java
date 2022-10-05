@@ -68,7 +68,7 @@ public class HomeScreenActivity extends AppCompatActivity {
             }
         });
 
-        Button goToChallengeFragments = findViewById(R.id.goChallengeHandler);
+        Button goToChallengeFragments = findViewById(R.id.goChallengeMain);
         goToChallengeFragments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

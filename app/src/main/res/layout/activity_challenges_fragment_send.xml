@@ -9,100 +9,95 @@
     tools:layout_editor_absoluteY="-45dp">
 
 
+    <EditText
+        android:id="@+id/challengedEmailText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="17dp"
+        android:inputType="textEmailAddress"
+        android:maxLength="254"
+        android:minHeight="48dp"
+        android:hint="Enter the email you want to send challenge to!"
+        android:textSize="16sp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintStart_toStartOf="@+id/name"
+        app:layout_constraintTop_toBottomOf="@+id/name" />
+
     <TextView
         android:id="@+id/name"
-        android:layout_width="0dp"
-        android:layout_height="23dp"
-        android:layout_marginStart="11dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="11dp"
-        android:text="Name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="41dp"
+        android:text="Email"
+        android:textColor="@color/black"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/challengedEmailText"
-        android:layout_width="0dp"
-        android:layout_height="51dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="6dp"
-        android:ems="10"
-        android:inputType="text"
-        android:text="challenged Email Text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name" />
-
-    <EditText
         android:id="@+id/customChallenge"
-        android:layout_width="0dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="11dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="11dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="custom challenge"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="31dp"
+        android:inputType="text"
+        android:minHeight="48dp"
+        android:hint="Enter the challenge you want to send!"
+        android:textSize="16sp"
+        app:autoSizeTextType="uniform"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/challengeToBeSent" />
 
     <TextView
-        android:id="@+id/sentChallengesDisplay"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="92dp"
-        android:layout_marginEnd="16dp"
-        android:text="Sent Challenges"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sendButton" />
-
-    <TextView
         android:id="@+id/challengeToBeSent"
-        android:layout_width="0dp"
-        android:layout_height="29dp"
-        android:layout_marginStart="13dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="13dp"
-        android:text="Challenge to be sent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="35dp"
+        android:text="What would you like to challenge your friend to?"
+        android:textColor="@color/black"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/challengedEmailText" />
 
     <TextView
-        android:id="@+id/sentChallengeText"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="16dp"
-        android:text="sentChallengeText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:id="@+id/sentChallengesDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="34dp"
+        android:text="Challenges You Sent"
+        android:textColor="@color/black"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sentChallengesDisplay" />
+        app:layout_constraintTop_toBottomOf="@+id/sendButton" />
+
+    <TextView
+        android:id="@+id/sentChallengeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="sentChallengeText"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sentChallengesDisplay"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/sendButton"
-        android:layout_width="123dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="134dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="133dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="42dp"
         android:text="Send"
-        app:layout_constraintEnd_toEndOf="@+id/challengeToBeSent"
-        app:layout_constraintHorizontal_bias="0.444"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/customChallenge" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
