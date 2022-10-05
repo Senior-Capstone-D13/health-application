@@ -55,27 +55,20 @@ public class ChallengesActivityMain extends AppCompatActivity {
         initializeButtons();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        initializeSendFragment();
-        initializeAcceptFragment();
-    }
-
     public void initializeFragments() {
         acceptFragment = new ChallengesActivityFragmentAccept();
         sendFragment = new ChallengesActivityFragmentSend();
 
         fragmentManager = getSupportFragmentManager();
 
-
-
         //replace default container from xml with new container
-        currentFragment = acceptFragment;
         fragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer,acceptFragment, null)
                 .setReorderingAllowed(true)
                 .commit();
+
+        //set starting fragment to fragment replaced container with
+        currentFragment = acceptFragment;
 
         //add sendFragment to fragmentManager
         //hide it so acceptFragment only one shown
@@ -94,8 +87,8 @@ public class ChallengesActivityMain extends AppCompatActivity {
                 fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction()
                         .setCustomAnimations(
-                                android.R.anim.slide_in_left, //Enter
-                                R.anim.slide_out_right        //Exit
+                                R.anim.slide_in_left,  //Enter
+                                R.anim.slide_out_right //Exit
                         )
                         .hide(currentFragment)
                         .show(acceptFragment)
@@ -112,8 +105,8 @@ public class ChallengesActivityMain extends AppCompatActivity {
             public void onClick(View view) {
                 fragmentManager.beginTransaction()
                         .setCustomAnimations(
-                                android.R.anim.slide_in_left,  //Enter
-                                android.R.anim.slide_out_right //Exit
+                                R.anim.slide_in_right,  //Enter
+                                R.anim.slide_out_left   //Exit
                         )
                         .hide(currentFragment)
                         .show(sendFragment)
@@ -138,18 +131,25 @@ public class ChallengesActivityMain extends AppCompatActivity {
         });
     }
 
-    public void initializeAcceptFragment(){
+    @Override
+    protected void onStart() {
+        super.onStart();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
         GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        account = GoogleSignIn.getLastSignedInAccount(this);
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 
         TextView name_text_view = acceptFragment.getView().findViewById(R.id.userName);
+        //TextView currentChallengeText = findViewById(R.id.currentChallengeText);
         TextView current_challenges = acceptFragment.getView().findViewById(R.id.currentChallengeInfo);
-        name_text_view.setText(account.getGivenName());
+        TextView sent_challenges_display = sendFragment.getView().findViewById(R.id.sentChallengesDisplay);
+        TextView sent_challenges = sendFragment.getView().findViewById(R.id.sentChallengeText);
 
+        name_text_view.setText(account.getGivenName());
+        //currentChallengeText.setText("Current Challenges");
+        //sent_challenges_display.setText("Sent Challenges");
         // Initialize HashMap to use semi-globally
         HashMap<String, String> reference_hashmap = new HashMap<>();
         ArrayList<String> received_challenges_emails = new ArrayList<>();
@@ -178,26 +178,31 @@ public class ChallengesActivityMain extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
+
                         // Displays list of received challenges
                         HashMap<String, String> received_challenges = (HashMap<String, String>) document.get("received_challenges");
-                        if (received_challenges.size() != 0) {
-                            TextView received_challenges_text_view = acceptFragment.getView().findViewById(R.id.receivedChallengeInfo);
+
+                        TextView received_challenges_text_view = acceptFragment.getView().findViewById(R.id.receivedChallengeInfo);
+
+                        if(received_challenges.size() != 0) {
                             received_challenges_emails.addAll(received_challenges.keySet());
                             received_challenges_text_view.setText("Email: " + received_challenges_emails.get(0) + " Challenge: "
                                     + received_challenges.get(received_challenges_emails.get(0)));
                             reference_hashmap.put(received_challenges_emails.get(0), received_challenges.get(received_challenges_emails.get(0)));
-                        } else {
-                            TextView received_challenges_text_view = acceptFragment.getView().findViewById(R.id.receivedChallengeInfo);
-                            received_challenges_text_view.setText("You currently do not have any receieved challenges");
+                        }
+                        else{
+                            received_challenges_text_view.setText("You currently do not have any received challenges");
                         }
 
                         // Get initial list of current challenges
+
                         HashMap<String, String> current_challenges_hash_map = (HashMap<String, String>) document.get("accepted_challenges");
-                        if (current_challenges_hash_map.size() != 0) {
+                        if(current_challenges_hash_map.size() != 0){
                             current_challenges_emails.addAll(current_challenges_hash_map.keySet());
                             current_challenges.setText("Email: " + current_challenges_emails.get(0) + " Challenge: "
                                     + current_challenges_hash_map.get(current_challenges_emails.get(0)));
-                        } else {
+                        }
+                        else{
                             current_challenges.setText("You currently do not have any ongoing challenges");
                         }
 
@@ -206,11 +211,11 @@ public class ChallengesActivityMain extends AppCompatActivity {
                         HashMap<String, String> sent_challenges_hash_map = (HashMap<String, String>) document.get("sent_challenges");
                         if(sent_challenges_hash_map.size() != 0){
                             sent_challenges_emails.addAll(sent_challenges_hash_map.keySet());
-//                            sent_challenges.setText("Email: " + sent_challenges_emails.get(0) + " Challenge: "
-//                                    + sent_challenges_hash_map.get(sent_challenges_emails.get(0)));
+                            sent_challenges.setText("Email: " + sent_challenges_emails.get(0) + " Challenge: "
+                                    + sent_challenges_hash_map.get(sent_challenges_emails.get(0)));
                         }
                         else{
-//                            sent_challenges.setText("You have not sent any challenges!");
+                            sent_challenges.setText("You have not sent any challenges!");
                         }
                     } else {
                         Log.d(TAG, "No such document");
@@ -227,61 +232,27 @@ public class ChallengesActivityMain extends AppCompatActivity {
         accept_challenge_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 // Change received challenges to accepted challenges
                 CollectionReference user_collection = db.collection("users");
                 HashMap<String, String> blank_hash_map = new HashMap<>();
                 user_collection.document(finalEncrypted_email).update("accepted_challenges", reference_hashmap);
                 user_collection.document(finalEncrypted_email).update("received_challenges", blank_hash_map);
-
                 // On the other person's database, change sent challenges to accepted challenges
+
                 user_collection.document(received_challenges_emails.get(0)).update("sent_challenges", blank_hash_map);
                 HashMap<String, String> opposite_hash_map = new HashMap<>();
                 opposite_hash_map.put(finalEncrypted_email, reference_hashmap.get(received_challenges_emails.get(0)));
                 user_collection.document(received_challenges_emails.get(0)).update("accepted_challenges", opposite_hash_map);
-
-                //UPDATE VIEW
-                onStart();
             }
         });
-    }
 
-    public void initializeSendFragment() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        account = GoogleSignIn.getLastSignedInAccount(this);
-
-        TextView sent_challenges = sendFragment.getView().findViewById(R.id.sentChallengeText);
-        EditText challenged_email_edit_text = sendFragment.getView().findViewById(R.id.challengedEmailText);
-        EditText challenge_edit_text = sendFragment.getView().findViewById(R.id.customChallenge);
-
-        CipherHandler ch = new CipherHandler();
-        ArrayList<String> sent_challenges_emails = new ArrayList<>();
-        // Scan through the database for initial settings
-        String encrypted_email = "default";
-        try {
-            encrypted_email = ch.encrypt_message(account.getEmail());
-        } catch (NoSuchPaddingException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-        } catch (IllegalBlockSizeException e) {
-            e.printStackTrace();
-        } catch (BadPaddingException e) {
-            e.printStackTrace();
-        }
-
-        Button send_challenge_button = findViewById(R.id.sendButton);
+        Button send_challenge_button = sendFragment.getView().findViewById(R.id.sendButton);
         send_challenge_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Capture the current TextBoxes
-
+                EditText challenged_email_edit_text = findViewById(R.id.challengedEmailText);
+                EditText challenge_edit_text = findViewById(R.id.customChallenge);
                 String email = challenged_email_edit_text.getText().toString();
                 try {
                     email = ch.encrypt_message(email);
@@ -327,34 +298,12 @@ public class ChallengesActivityMain extends AppCompatActivity {
                         }
                     }
                 });
+
                 // Else send an error message
-                onStart();
-            }
-        });
-        DocumentReference docRef = db.collection("users").document(encrypted_email);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        // Get initial list of sent challenges that have not been accepted yet
-                        HashMap<String, String> sent_challenges_hash_map = (HashMap<String, String>) document.get("sent_challenges");
-                        if (sent_challenges_hash_map.size() != 0) {
-                            sent_challenges_emails.addAll(sent_challenges_hash_map.keySet());
-                            sent_challenges.setText("Email: " + sent_challenges_emails.get(0) + " Challenge: "
-                                    + sent_challenges_hash_map.get(sent_challenges_emails.get(0)));
-                        } else {
-                            sent_challenges.setText("You have not sent any challenges!");
-                        }
-                    } else {
-                        Log.d(TAG, "No such document");
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
             }
         });
     }
+
+
 
 }
