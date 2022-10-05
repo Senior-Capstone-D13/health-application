@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HealthApplication">
         <activity
-            android:name=".ChallengesActivityHandler"
+            android:name=".ChallengesActivityMain"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
