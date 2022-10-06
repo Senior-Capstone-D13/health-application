@@ -12,6 +12,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -26,6 +28,8 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.w3c.dom.Text;
 
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -44,15 +48,25 @@ public class ChallengesActivityMain extends AppCompatActivity {
     private ChallengesActivityFragmentSend sendFragment;
     private Fragment currentFragment;
 
+    private Animation clickEffect;
+
     GoogleSignInAccount account;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_challenges_main);
+        setAnimations();
         initializeFragments();
         initializeButtons();
+    }
+
+    //animations
+    public void setAnimations(){
+        clickEffect = AnimationUtils.loadAnimation(this,R.anim.click_effect);
     }
 
     public void initializeFragments() {
@@ -84,7 +98,6 @@ public class ChallengesActivityMain extends AppCompatActivity {
         goAcceptFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction()
                         .setCustomAnimations(
                                 R.anim.slide_in_left,  //Enter
@@ -95,7 +108,8 @@ public class ChallengesActivityMain extends AppCompatActivity {
                         .setReorderingAllowed(true)
                         .commit();
                 currentFragment = acceptFragment;
-                onStart();
+                view.startAnimation(clickEffect); //animate button
+                onStart();//TODO function calls to update text views instead of onStart?
             }
         });
 
@@ -113,7 +127,8 @@ public class ChallengesActivityMain extends AppCompatActivity {
                         .setReorderingAllowed(true)
                         .commit();
                 currentFragment = sendFragment;
-                onStart();
+                view.startAnimation(clickEffect); //animate button
+                onStart();//Update text Views
             }
         });
     }
@@ -130,6 +145,7 @@ public class ChallengesActivityMain extends AppCompatActivity {
             }
         });
     }
+
 
     @Override
     protected void onStart() {
@@ -191,7 +207,7 @@ public class ChallengesActivityMain extends AppCompatActivity {
                             reference_hashmap.put(received_challenges_emails.get(0), received_challenges.get(received_challenges_emails.get(0)));
                         }
                         else{
-                            received_challenges_text_view.setText("You currently do not have any received challenges");
+                            received_challenges_text_view.setText("No ongoing challenges!");
                         }
 
                         // Get initial list of current challenges
@@ -291,10 +307,10 @@ public class ChallengesActivityMain extends AppCompatActivity {
                                 challenge_edit_text.setText("Challenge Sent!!");
                             } else {
                                 Log.d(TAG, "No such document");
-                                challenged_email_edit_text.setText("No such user exists!");
+                                challenged_email_edit_text.setHint("No such user exists! Try another email!");
                             }
                         } else {
-                            challenged_email_edit_text.setText("No such user exists!");
+                            challenged_email_edit_text.setHint("No such user exists! Try another email!");
                         }
                     }
                 });

@@ -54,7 +54,7 @@
         android:layout_marginTop="21dp"
         android:gravity="bottom"
         android:scrollbars="vertical"
-        android:text="No challenges accepted..."
+        android:text="No ongoing challenges"
         android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"

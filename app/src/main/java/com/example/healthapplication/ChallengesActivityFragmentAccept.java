@@ -34,16 +34,13 @@ public class ChallengesActivityFragmentAccept extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.activity_challenges_fragment_accept, container, false);
-
         receivedChallenges = (TextView) view.findViewById(R.id.receivedChallenges);
         userName = (TextView) view.findViewById(R.id.userName);
         receivedChallengeInfo = (TextView) view.findViewById(R.id.receivedChallengeInfo);
         rejectButton = (Button) view.findViewById(R.id.rejectButton);
         acceptButton = (Button) view.findViewById(R.id.acceptButton);
-
         currentChallengeText = (TextView) view.findViewById(R.id.currentChallengeText);
         currentChallengeInfo = (TextView) view.findViewById(R.id.currentChallengeInfo);
-
         return view;
     }
 
