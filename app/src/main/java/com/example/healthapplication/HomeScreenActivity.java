@@ -2,11 +2,16 @@ package com.example.healthapplication;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -18,12 +23,13 @@ import com.google.android.gms.tasks.Task;
 
 public class HomeScreenActivity extends AppCompatActivity {
 
+    private ConstraintLayout homeScreen;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
 
-        String name = findViewById(R.id.homeScreenName).toString();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -33,38 +39,63 @@ public class HomeScreenActivity extends AppCompatActivity {
         String age = extras.getString("age");
         String email = extras.getString("email");
         String height = extras.getString("height");
-        TextView textview_age = findViewById(R.id.homeScreenName);
-        textview_age.setText("Age: " + age + "\n" + "Email: " + email + "\n" + "height: " + height + "inches");
-        Button homescreenSignOut = findViewById(R.id.homescreenSignOut);
-        homescreenSignOut.setOnClickListener(new View.OnClickListener() {
+
+
+        //Popup menu stuff
+        homeScreen = (ConstraintLayout) findViewById(R.id.home_screen);
+        Button popupUserInformation = findViewById(R.id.popupUserInformation);
+        popupUserInformation.setText(account.getGivenName());
+        popupUserInformation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mGoogleSignInClient.signOut().addOnCompleteListener(HomeScreenActivity.this, new OnCompleteListener<Void>() {
+                //Menu stuff
+                LayoutInflater layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+                ViewGroup container = (ViewGroup) layoutInflater.inflate(
+                        R.layout.activity_home_screen_popup_user_information,
+                        null);
+
+
+                int xStart = 800;
+                int height = 1200;
+                PopupWindow window = new PopupWindow(container,xStart,height,true);
+
+
+                window.setAnimationStyle(-1);//-1 default
+
+                //CENTER WINDOW
+                window.showAtLocation(homeScreen, Gravity.CENTER,0,0);
+
+                //TextViews Inside Menu
+                TextView popupName = window.getContentView().findViewById(R.id.homeScreenName);
+                TextView popupAge = window.getContentView().findViewById(R.id.age);
+                TextView popupEmail = window.getContentView().findViewById(R.id.email);
+                TextView popupHeight = window.getContentView().findViewById(R.id.height);
+                popupUserInformation.setText(account.getGivenName());
+
+                popupName.setText("Name " + account.getGivenName());
+                popupAge.setText("Age: " + age);
+                popupEmail.setText("Email: " + email);
+                popupHeight.setText("Height: " + height + " inches");
+
+                //TextView textview_age = findViewById(R.id.homeScreenName);
+                //textview_age.setText("Age: " + age + "\n" + "Email: " + email + "\n" + "height: " + height + "inches");
+
+                //Buttons inside menu
+                Button signOut = window.getContentView().findViewById(R.id.signout);
+                signOut.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        finish();
-                        startActivity(new Intent(HomeScreenActivity.this, MainActivity.class));
+                    public void onClick(View view) {
+                        mGoogleSignInClient.signOut().addOnCompleteListener(HomeScreenActivity.this, new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                finish();
+                                startActivity(new Intent(HomeScreenActivity.this, MainActivity.class));
+                            }
+                        });
                     }
+
                 });
-            }
 
-        });
-
-        Button homescreenGoToSteps = findViewById(R.id.homescreenGoToSteps);
-        homescreenGoToSteps.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openStepsScreen();
-            }
-
-        });
-
-        Button go_to_challenges = findViewById(R.id.challenges);
-        go_to_challenges.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(HomeScreenActivity.this, ChallengesActivity.class));
-                // Go to Challenges Screen
             }
         });
 
@@ -77,9 +108,4 @@ public class HomeScreenActivity extends AppCompatActivity {
         });
     }
 
-    //for first time users or something
-    public void openStepsScreen() {
-
-        //TODO Implement
-    }
 }

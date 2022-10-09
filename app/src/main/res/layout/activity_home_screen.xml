@@ -2,65 +2,64 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_screen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".HomeScreenActivity">
 
-    <Button
-        android:id="@+id/homescreenSignOut"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:text="SignOut"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/homescreenGoToSteps"
+        android:id="@+id/goCountCalories"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="31dp"
-        android:text="Go to Steps"
-        app:layout_constraintBottom_toBottomOf="@+id/homeScreenName"
-        app:layout_constraintEnd_toStartOf="@+id/homeScreenName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/homeScreenName" />
-
-    <TextView
-        android:id="@+id/homeScreenName"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="19dp"
-        android:layout_marginBottom="126dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/goChallengeMain"
+        android:layout_marginTop="68dp"
+        android:text="Count Calories"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/homescreenGoToSteps"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/goChallengeMain" />
 
     <Button
-        android:id="@+id/challenges"
+        android:id="@+id/goTrackLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="13dp"
-        android:text="challenges"
+        android:layout_marginTop="84dp"
+        android:text="Track Location"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/homescreenSignOut" />
+        app:layout_constraintTop_toBottomOf="@+id/goSelectWorkout" />
 
     <Button
         android:id="@+id/goChallengeMain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="224dp"
-        android:layout_marginBottom="388dp"
-        android:text="Challenge Main"
+        android:layout_marginTop="60dp"
+        android:text="Challenges"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/popupUserInformation" />
+
+    <Button
+        android:id="@+id/goSelectWorkout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:text="Select Workout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/goCountCalories" />
+
+    <Button
+        android:id="@+id/popupUserInformation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Username"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/homeScreenName" />
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.073" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
