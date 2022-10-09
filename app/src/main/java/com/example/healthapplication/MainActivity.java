@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize the text view
         TextView initialTextView = findViewById(R.id.maintextview);
-        initialTextView.setText("Welcome to the Health Application!");
+        initialTextView.setText("Health Application");
 
         // Hide the sign out button at first
         Button signOutButton = findViewById(R.id.sign_out_button);

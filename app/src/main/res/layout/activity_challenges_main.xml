@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
         android:text="CHALLENGES"
-        android:textColor="@color/black"
+        android:textColor="?colorSecondary"
         android:textSize="28sp"
         app:layout_constraintBottom_toTopOf="@+id/goSendFragment"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,7 +45,12 @@
         android:text="Exit"
         app:layout_constraintBottom_toTopOf="@+id/challengesLabel"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="?colorOnPrimary"
+        android:textColor="?colorPrimary"
+        app:strokeColor="?colorPrimary"
+        app:strokeWidth="3dp"
+        />
 
     <Button
         android:id="@+id/goAcceptFragment"

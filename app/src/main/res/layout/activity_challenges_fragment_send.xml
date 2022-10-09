@@ -31,7 +31,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="41dp"
         android:text="Email"
-        android:textColor="@color/black"
+        android:textColor="?colorSecondary"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -57,7 +57,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="35dp"
         android:text="What would you like to challenge your friend to?"
-        android:textColor="@color/black"
+        android:textColor="?colorSecondary"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/challengedEmailText" />
@@ -69,7 +69,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="34dp"
         android:text="Challenges You Sent"
-        android:textColor="@color/black"
+        android:textColor="?colorSecondary"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sendButton" />
@@ -80,7 +80,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="sentChallengeText"
-        android:textColor="@color/black"
+        android:textColor="?colorSecondary"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -94,6 +94,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="42dp"
         android:text="Send"
+        android:textColor="@color/dark_1"
+        android:backgroundTint="@color/green"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/customChallenge" />

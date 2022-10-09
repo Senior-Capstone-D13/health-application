@@ -31,6 +31,8 @@
         android:layout_marginStart="3dp"
         android:layout_marginBottom="44dp"
         android:text="Accept"
+        android:textColor="@color/dark_1"
+        android:backgroundTint="@color/green"
         app:layout_constraintBottom_toTopOf="@+id/currentChallengeText"
         app:layout_constraintEnd_toStartOf="@+id/rejectButton"
         app:layout_constraintStart_toStartOf="parent" />
@@ -92,6 +94,8 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="15dp"
         android:text="Reject"
+        android:textColor="@color/dark_1"
+        android:backgroundTint="@color/red"
         app:layout_constraintBaseline_toBaselineOf="@+id/acceptButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/acceptButton" />
