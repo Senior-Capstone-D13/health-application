@@ -1,4 +1,4 @@
-package com.example.database;
+package com.example.healthapplication;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
