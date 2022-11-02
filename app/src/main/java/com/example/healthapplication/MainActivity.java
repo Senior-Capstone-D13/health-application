@@ -2,21 +2,15 @@ package com.example.healthapplication;
 
 import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 
 import androidx.annotation.Nullable;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -34,10 +28,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.HashMap;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Map;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -67,7 +59,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //openHomeScreenActivity();
-                openUserQuestionsActivity();
+                //openUserQuestionsActivity();
+                Intent intent = new Intent(MainActivity.this, ChallengesActivityMain.class);
+                startActivity(intent);
             }
         });
 
@@ -91,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize the text view
         TextView initialTextView = findViewById(R.id.maintextview);
-        initialTextView.setText("Welcome to the Health Application!");
+        initialTextView.setText("Health Application");
 
         // Hide the sign out button at first
         Button signOutButton = findViewById(R.id.sign_out_button);

@@ -2,14 +2,18 @@ package com.example.healthapplication;
 
 import static android.content.ContentValues.TAG;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
+import androidx.annotation.NonNull;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -36,14 +40,112 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
-public class ChallengesActivity extends AppCompatActivity {
+public class ChallengesActivityMain extends AppCompatActivity {
+
+    private FragmentManager fragmentManager;
+
+    private ChallengesActivityFragmentAccept acceptFragment;
+    private ChallengesActivityFragmentSend sendFragment;
+    private Fragment currentFragment;
+
+    private Animation clickEffect;
+
+    GoogleSignInAccount account;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_challenges);
+        setContentView(R.layout.activity_challenges_main);
+        setAnimations();
+        initializeFragments();
+        initializeButtons();
     }
+
+    //animations
+    public void setAnimations(){
+        clickEffect = AnimationUtils.loadAnimation(this,R.anim.click_effect);
+    }
+
+    public void initializeFragments() {
+        acceptFragment = new ChallengesActivityFragmentAccept();
+        sendFragment = new ChallengesActivityFragmentSend();
+
+        fragmentManager = getSupportFragmentManager();
+
+        //replace default container from xml with new container
+        fragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer,acceptFragment, null)
+                .setReorderingAllowed(true)
+                .commit();
+
+        //set starting fragment to fragment replaced container with
+        currentFragment = acceptFragment;
+
+        //add sendFragment to fragmentManager
+        //hide it so acceptFragment only one shown
+        fragmentManager.beginTransaction()
+                .add(R.id.fragmentContainer,sendFragment, null)
+                .setReorderingAllowed(true)
+                .hide(sendFragment)
+                .commit();
+
+        //Change Fragment buttons
+        //updates currentFragment depending on selected fragment
+        Button goAcceptFragment = findViewById(R.id.goAcceptFragment);
+        goAcceptFragment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fragmentManager.beginTransaction()
+                        .setCustomAnimations(
+                                R.anim.slide_in_left,  //Enter
+                                R.anim.slide_out_right //Exit
+                        )
+                        .hide(currentFragment)
+                        .show(acceptFragment)
+                        .setReorderingAllowed(true)
+                        .commit();
+                currentFragment = acceptFragment;
+                view.startAnimation(clickEffect); //animate button
+                onStart();//TODO function calls to update text views instead of onStart?
+            }
+        });
+
+        Button goSendFragment = findViewById(R.id.goSendFragment);
+        goSendFragment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fragmentManager.beginTransaction()
+                        .setCustomAnimations(
+                                R.anim.slide_in_right,  //Enter
+                                R.anim.slide_out_left   //Exit
+                        )
+                        .hide(currentFragment)
+                        .show(sendFragment)
+                        .setReorderingAllowed(true)
+                        .commit();
+                currentFragment = sendFragment;
+                view.startAnimation(clickEffect); //animate button
+                onStart();//Update text Views
+            }
+        });
+    }
+
+    public void initializeButtons() {
+        Button exit = findViewById(R.id.exitButton);
+        exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ChallengesActivityMain.this,HomeScreenActivity.class);
+                intent.putExtra("credentials", account);
+                startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+            }
+        });
+    }
+
 
     @Override
     protected void onStart() {
@@ -55,15 +157,15 @@ public class ChallengesActivity extends AppCompatActivity {
         GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 
-        TextView name_text_view = findViewById(R.id.textView4);
-        TextView current_challenges_display = findViewById(R.id.textView10);
-        TextView current_challenges = findViewById(R.id.textView11);
-        TextView sent_challenges_display = findViewById(R.id.textView12);
-        TextView sent_challenges = findViewById(R.id.textView13);
+        TextView name_text_view = acceptFragment.getView().findViewById(R.id.userName);
+        //TextView currentChallengeText = findViewById(R.id.currentChallengeText);
+        TextView current_challenges = acceptFragment.getView().findViewById(R.id.currentChallengeInfo);
+        TextView sent_challenges_display = sendFragment.getView().findViewById(R.id.sentChallengesDisplay);
+        TextView sent_challenges = sendFragment.getView().findViewById(R.id.sentChallengeText);
 
         name_text_view.setText(account.getGivenName());
-        current_challenges_display.setText("Current Challenges");
-        sent_challenges_display.setText("Sent Challenges");
+        //currentChallengeText.setText("Current Challenges");
+        //sent_challenges_display.setText("Sent Challenges");
         // Initialize HashMap to use semi-globally
         HashMap<String, String> reference_hashmap = new HashMap<>();
         ArrayList<String> received_challenges_emails = new ArrayList<>();
@@ -94,18 +196,18 @@ public class ChallengesActivity extends AppCompatActivity {
                     if (document.exists()) {
 
                         // Displays list of received challenges
-
                         HashMap<String, String> received_challenges = (HashMap<String, String>) document.get("received_challenges");
+
+                        TextView received_challenges_text_view = acceptFragment.getView().findViewById(R.id.receivedChallengeInfo);
+
                         if(received_challenges.size() != 0) {
-                            TextView received_challenges_text_view = findViewById(R.id.textView6);
                             received_challenges_emails.addAll(received_challenges.keySet());
                             received_challenges_text_view.setText("Email: " + received_challenges_emails.get(0) + " Challenge: "
                                     + received_challenges.get(received_challenges_emails.get(0)));
                             reference_hashmap.put(received_challenges_emails.get(0), received_challenges.get(received_challenges_emails.get(0)));
                         }
                         else{
-                            TextView received_challenges_text_view = findViewById(R.id.textView6);
-                            received_challenges_text_view.setText("You currently do not have any receieved challenges");
+                            received_challenges_text_view.setText("No ongoing challenges!");
                         }
 
                         // Get initial list of current challenges
@@ -141,7 +243,7 @@ public class ChallengesActivity extends AppCompatActivity {
         });
 
         // Add On Button Clickers
-        Button accept_challenge_button = findViewById(R.id.button);
+        Button accept_challenge_button = acceptFragment.getView().findViewById(R.id.acceptButton);
         String finalEncrypted_email = encrypted_email;
         accept_challenge_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,13 +262,13 @@ public class ChallengesActivity extends AppCompatActivity {
             }
         });
 
-        Button send_challenge_button = findViewById(R.id.button2);
+        Button send_challenge_button = sendFragment.getView().findViewById(R.id.sendButton);
         send_challenge_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Capture the current TextBoxes
-                EditText challenged_email_edit_text = findViewById(R.id.editTextTextPersonName);
-                EditText challenge_edit_text = findViewById(R.id.editTextTextPersonName2);
+                EditText challenged_email_edit_text = findViewById(R.id.challengedEmailText);
+                EditText challenge_edit_text = findViewById(R.id.customChallenge);
                 String email = challenged_email_edit_text.getText().toString();
                 try {
                     email = ch.encrypt_message(email);
@@ -205,10 +307,10 @@ public class ChallengesActivity extends AppCompatActivity {
                                 challenge_edit_text.setText("Challenge Sent!!");
                             } else {
                                 Log.d(TAG, "No such document");
-                                challenged_email_edit_text.setText("No such user exists!");
+                                challenged_email_edit_text.setHint("No such user exists! Try another email!");
                             }
                         } else {
-                            challenged_email_edit_text.setText("No such user exists!");
+                            challenged_email_edit_text.setHint("No such user exists! Try another email!");
                         }
                     }
                 });
@@ -216,14 +318,8 @@ public class ChallengesActivity extends AppCompatActivity {
                 // Else send an error message
             }
         });
-
-        Button dismiss_button = findViewById(R.id.button3);
-        dismiss_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent go_back_to_main = new Intent(ChallengesActivity.this, MainActivity.class);
-                startActivity(go_back_to_main);
-            }
-        });
     }
+
+
+
 }
