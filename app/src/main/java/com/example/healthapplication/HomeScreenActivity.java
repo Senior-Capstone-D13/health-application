@@ -131,6 +131,17 @@ public class HomeScreenActivity extends AppCompatActivity {
 //                overridePendingTransition(R.anim.zoom_in,R.anim.expand_effect);
             }
         });
+
+        Button goToTrackingWorkout = findViewById(R.id.goTrackLocation);
+        //       Animation effect = AnimationUtils.loadAnimation(this,R.anim.slide_out_right);
+        goToTrackingWorkout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                v.startAnimation(effect);
+                startActivity(new Intent(HomeScreenActivity.this, MapsActivity.class));
+//                overridePendingTransition(R.anim.zoom_in,R.anim.expand_effect);
+            }
+        });
     }
 
 }
