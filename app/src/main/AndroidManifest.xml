@@ -23,6 +23,18 @@
             android:name=".HomeScreenActivity"
             android:exported="false" />
         <activity
+            android:name=".WorkoutChallenges"
+            android:exported="false" />
+        <activity
+            android:name=".DisplayMessageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DisplayMessageActivity1"
+            android:exported="false" />
+        <activity
+            android:name=".DisplayMessageActivity2"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
