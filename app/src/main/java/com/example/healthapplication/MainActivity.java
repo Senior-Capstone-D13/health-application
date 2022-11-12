@@ -58,8 +58,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //openHomeScreenActivity();
                 //openUserQuestionsActivity();
-                Intent intent = new Intent(MainActivity.this, ChallengesActivityMain.class);
+                Intent intent = new Intent(MainActivity.this,testActivity.class);
                 startActivity(intent);
+
+//                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+
+
+
             }
         });
 
@@ -75,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent sign_in_intent = mGoogleSignInClient.getSignInIntent();
-                startActivityForResult(sign_in_intent, '0');    // 0 is RC code for successful sign in
+                startActivityForResult(sign_in_intent, 0);    // 0 is RC code for successful sign in
             }
         });
 
@@ -94,13 +99,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == '0') {
+        if (resultCode == 0) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignIn(task);
             Intent pass_credentials_to_user_questions = new Intent(MainActivity.this, UserQuestionsActivity.class);
             pass_credentials_to_user_questions.putExtra("credentials", account);
             startActivity(pass_credentials_to_user_questions);
-            openUserQuestionsActivity();
+            overridePendingTransition(R.anim.slide_in_left,
+                    R.anim.slide_out_right);
             // Check for login
             TextView login_textview = findViewById(R.id.maintextview);
             login_textview.setText("Hello " + task.getResult().getGivenName());
@@ -181,11 +187,13 @@ public class MainActivity extends AppCompatActivity {
                             intent.putExtra("height", height);
                             intent.putExtra("email", email);
                             startActivity(intent);
+                            overridePendingTransition(-1,-1);
                         } else {
                             Log.d(ContentValues.TAG, "No such document");
                             Intent pass_credentials_to_user_questions = new Intent(MainActivity.this, UserQuestionsActivity.class);
                             pass_credentials_to_user_questions.putExtra("credentials", account);
                             startActivity(pass_credentials_to_user_questions);
+                            overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
                         }
                     } else {
                         Log.d(ContentValues.TAG, "get failed with ", task.getException());
@@ -233,11 +241,15 @@ public class MainActivity extends AppCompatActivity {
     public void openHomeScreenActivity() {
         Intent intent = new Intent(this,HomeScreenActivity.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_left,
+                R.anim.slide_out_right);
     }
 
     //for first time users or something
     public void openUserQuestionsActivity() {
         Intent intent = new Intent(this,UserQuestionsActivity.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_left,
+                R.anim.slide_out_right);
     }
 }

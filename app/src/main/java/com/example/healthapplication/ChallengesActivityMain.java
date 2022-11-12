@@ -101,7 +101,7 @@ public class ChallengesActivityMain extends AppCompatActivity {
                 fragmentManager.beginTransaction()
                         .setCustomAnimations(
                                 R.anim.slide_in_left,  //Enter
-                                R.anim.slide_out_right //Exit
+                                R.anim.slide_out_right//Exit
                         )
                         .hide(currentFragment)
                         .show(acceptFragment)
@@ -139,7 +139,6 @@ public class ChallengesActivityMain extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ChallengesActivityMain.this,HomeScreenActivity.class);
-                intent.putExtra("credentials", account);
                 startActivity(intent);
                 overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
             }
