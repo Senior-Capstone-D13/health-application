@@ -11,7 +11,11 @@
         android:duration="500">
     </translate>
 
+<<<<<<< HEAD
     <!-- Fade out -->
+=======
+    <!-- Fade in -->
+>>>>>>> 7032aecf297d9ce8ef44da66ae83b5cca640f26f
     <alpha
         android:fromAlpha="1"
         android:toAlpha="0.3"

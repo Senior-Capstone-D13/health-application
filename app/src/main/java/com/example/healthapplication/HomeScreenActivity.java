@@ -50,6 +50,8 @@ public class HomeScreenActivity extends AppCompatActivity {
         Button popupUserInformation = findViewById(R.id.popupUserInformation);
         Animation zoomIn = AnimationUtils.loadAnimation(this,R.anim.zoom_in);
         Animation popupButtonClicked = AnimationUtils.loadAnimation(this,R.anim.pop_up_zoom_in);
+   //     Animation zoomIn = AnimationUtils.loadAnimation(this,R.anim.zoom_in);
+   //     Animation popupButtonClicked = AnimationUtils.loadAnimation(this,R.anim.pop_up_zoom_in);
 
 
 
@@ -115,6 +117,8 @@ public class HomeScreenActivity extends AppCompatActivity {
 
                 //Enter animation of popup window
                 container.startAnimation(zoomIn);
+//                popupUserInformation.startAnimation(popupButtonClicked);
+
                 //CENTER WINDOW
                 window.showAtLocation(homeScreen, Gravity.CENTER,0,0);
                 window.showAsDropDown(view);

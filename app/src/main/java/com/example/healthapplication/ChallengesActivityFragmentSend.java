@@ -22,7 +22,11 @@ public class ChallengesActivityFragmentSend extends Fragment {
     private Button sendButton;
 
     public ChallengesActivityFragmentSend() {
+<<<<<<< HEAD
         super(R.layout.activity_challenges_fragment_accept);
+=======
+        super(R.layout.activity_challenges_fragment_send);
+>>>>>>> 7032aecf297d9ce8ef44da66ae83b5cca640f26f
     }
 
     @Override
