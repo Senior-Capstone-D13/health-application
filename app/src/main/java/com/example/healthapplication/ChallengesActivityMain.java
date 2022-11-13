@@ -101,7 +101,7 @@ public class ChallengesActivityMain extends AppCompatActivity {
                 fragmentManager.beginTransaction()
                         .setCustomAnimations(
                                 R.anim.slide_in_left,  //Enter
-                                R.anim.slide_out_right//Exit
+                                R.anim.slide_out_right //Exit
                         )
                         .hide(currentFragment)
                         .show(acceptFragment)

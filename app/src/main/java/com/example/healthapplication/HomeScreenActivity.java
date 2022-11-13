@@ -48,8 +48,6 @@ public class HomeScreenActivity extends AppCompatActivity {
         //Popup menu stuff
         homeScreen = (ConstraintLayout) findViewById(R.id.home_screen);
         Button popupUserInformation = findViewById(R.id.popupUserInformation);
-        Animation zoomIn = AnimationUtils.loadAnimation(this,R.anim.zoom_in);
-        Animation popupButtonClicked = AnimationUtils.loadAnimation(this,R.anim.pop_up_zoom_in);
    //     Animation zoomIn = AnimationUtils.loadAnimation(this,R.anim.zoom_in);
    //     Animation popupButtonClicked = AnimationUtils.loadAnimation(this,R.anim.pop_up_zoom_in);
 
@@ -113,12 +111,10 @@ public class HomeScreenActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Animation of Button
-                popupUserInformation.startAnimation(popupButtonClicked);
-
-                //Enter animation of popup window
-                container.startAnimation(zoomIn);
 //                popupUserInformation.startAnimation(popupButtonClicked);
 
+                //Enter animation of popup window
+  //              container.startAnimation(zoomIn);
                 //CENTER WINDOW
                 window.showAtLocation(homeScreen, Gravity.CENTER,0,0);
                 window.showAsDropDown(view);
@@ -126,13 +122,13 @@ public class HomeScreenActivity extends AppCompatActivity {
         });
 
         Button goToChallengeFragments = findViewById(R.id.goChallengeMain);
-        Animation effect = AnimationUtils.loadAnimation(this,R.anim.slide_out_right);
+ //       Animation effect = AnimationUtils.loadAnimation(this,R.anim.slide_out_right);
         goToChallengeFragments.setOnClickListener(new View.OnClickListener() {
-           @Override
+            @Override
             public void onClick(View v) {
-                v.startAnimation(effect);
+//                v.startAnimation(effect);
                 startActivity(new Intent(HomeScreenActivity.this, ChallengesActivityMain.class));
-                overridePendingTransition(R.anim.zoom_in,R.anim.expand_effect);
+//                overridePendingTransition(R.anim.zoom_in,R.anim.expand_effect);
             }
         });
     }
