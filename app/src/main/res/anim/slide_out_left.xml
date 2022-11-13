@@ -12,6 +12,7 @@
     </translate>
 
     <!-- Fade in -->
+    <!-- Fade out -->
     <alpha
         android:fromAlpha="1"
         android:toAlpha="0.3"
