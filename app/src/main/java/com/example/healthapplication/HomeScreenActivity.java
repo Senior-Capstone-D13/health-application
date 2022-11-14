@@ -2,20 +2,23 @@ package com.example.healthapplication;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -28,6 +31,8 @@ import com.google.android.gms.tasks.Task;
 public class HomeScreenActivity extends AppCompatActivity {
 
     private ConstraintLayout homeScreen;
+    private int accNum;
+    private int bodNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +56,17 @@ public class HomeScreenActivity extends AppCompatActivity {
         //Animation zoomIn = AnimationUtils.loadAnimation(this,R.anim.zoom_in);
         //Animation popupButtonClicked = AnimationUtils.loadAnimation(this,R.anim.pop_up_zoom_in);
 
+        ImageView charImage = (ImageView) findViewById(R.id.characterImage);
+        accNum = 0;
+        bodNum = 0;
+        //Drawable d1 = getDrawable(R.drawable.body1);
+        //Drawable d2 = getDrawable(R.drawable.accessory1);
+        //LayerDrawable character = new LayerDrawable(new Drawable[] {d1,d2});
+        charImage.setImageDrawable(swapCharImage(accNum,bodNum));
 
+        ProgressBar dp = (ProgressBar) findViewById(R.id.dailyProgress);
+        dp.setMax(500);
+        dp.setProgress(200);
 
         popupUserInformation.setText(account.getGivenName());
 
@@ -87,6 +102,17 @@ public class HomeScreenActivity extends AppCompatActivity {
         popupEmail.setText("Email: " + email);
         popupHeight.setText("Height: " + height + " inches");
 
+        Switch themeToggle = window.getContentView().findViewById(R.id.Theme);
+        themeToggle.setChecked(AppCompatDelegate.getDefaultNightMode()==AppCompatDelegate.MODE_NIGHT_YES);
+        themeToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                }
+            }
+        });
 
         //TextView textview_age = findViewById(R.id.homeScreenName);
         //textview_age.setText("Age: " + age + "\n" + "Email: " + email + "\n" + "height: " + height + "inches");
@@ -150,6 +176,69 @@ public class HomeScreenActivity extends AppCompatActivity {
 //                overridePendingTransition(R.anim.zoom_in,R.anim.expand_effect);s
             }
         });
+
+        //Customization stuff
+        Button charBodyLeft = findViewById(R.id.bodyLeft);
+        Button charBodyRight = findViewById(R.id.bodyRight);
+        Button charAccLeft = findViewById(R.id.accessoryLeft);
+        Button charAccRight = findViewById(R.id.accessoryRight);
+        charBodyLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                charImage.setImageDrawable(swapCharImage(accNum,bodNum-1));
+            }
+        });
+        charBodyRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                charImage.setImageDrawable(swapCharImage(accNum,bodNum+1));
+            }
+        });
+        charAccLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                charImage.setImageDrawable(swapCharImage(accNum-1,bodNum));
+            }
+        });
+        charAccRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                charImage.setImageDrawable(swapCharImage(accNum+1,bodNum));
+            }
+        });
+
+    }
+
+    Drawable swapCharImage(int a, int b){
+        accNum = (3+a)%3;
+        bodNum = (3+b)%3;
+        Drawable acc = getDrawable(R.drawable.accessory1);;
+        Drawable bod = getDrawable(R.drawable.body1);
+        switch(accNum){
+            case 0:
+                acc = getDrawable(R.drawable.accessory1);
+                break;
+            case 1:
+                acc = getDrawable(R.drawable.accessory2);
+                break;
+            case 2:
+                acc = getDrawable(R.drawable.accessory3);
+                break;
+        }
+        switch(bodNum){
+            case 0:
+                bod = getDrawable(R.drawable.body1);
+                break;
+            case 1:
+                bod = getDrawable(R.drawable.body2);
+                break;
+            case 2:
+                bod = getDrawable(R.drawable.body3);
+                break;
+        }
+
+        LayerDrawable character = new LayerDrawable(new Drawable[]{bod,acc});
+        return character;
     }
 
 }
