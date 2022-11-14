@@ -22,6 +22,7 @@ public class ChallengesActivityFragmentSend extends Fragment {
     private Button sendButton;
 
     public ChallengesActivityFragmentSend() {
+
         super(R.layout.activity_challenges_fragment_send);
     }
 
