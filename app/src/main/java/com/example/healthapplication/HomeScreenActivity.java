@@ -137,7 +137,8 @@ public class HomeScreenActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(HomeScreenActivity.this, WorkoutChallenges.class));
-
+            }
+            });
 
         Button goToTrackingWorkout = findViewById(R.id.goTrackLocation);
         //       Animation effect = AnimationUtils.loadAnimation(this,R.anim.slide_out_right);
