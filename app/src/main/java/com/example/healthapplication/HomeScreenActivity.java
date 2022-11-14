@@ -48,8 +48,8 @@ public class HomeScreenActivity extends AppCompatActivity {
         //Popup menu stuff
         homeScreen = (ConstraintLayout) findViewById(R.id.home_screen);
         Button popupUserInformation = findViewById(R.id.popupUserInformation);
-   //     Animation zoomIn = AnimationUtils.loadAnimation(this,R.anim.zoom_in);
-   //     Animation popupButtonClicked = AnimationUtils.loadAnimation(this,R.anim.pop_up_zoom_in);
+        //Animation zoomIn = AnimationUtils.loadAnimation(this,R.anim.zoom_in);
+        //Animation popupButtonClicked = AnimationUtils.loadAnimation(this,R.anim.pop_up_zoom_in);
 
 
 
@@ -111,10 +111,10 @@ public class HomeScreenActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Animation of Button
-//                popupUserInformation.startAnimation(popupButtonClicked);
+                //popupUserInformation.startAnimation(popupButtonClicked);
 
                 //Enter animation of popup window
-  //              container.startAnimation(zoomIn);
+                //container.startAnimation(zoomIn);
                 //CENTER WINDOW
                 window.showAtLocation(homeScreen, Gravity.CENTER,0,0);
                 window.showAsDropDown(view);
