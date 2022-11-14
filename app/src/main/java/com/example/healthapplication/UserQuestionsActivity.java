@@ -38,6 +38,7 @@ import javax.crypto.NoSuchPaddingException;
 
 public class UserQuestionsActivity extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    GoogleSignInAccount account;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
