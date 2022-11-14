@@ -26,13 +26,6 @@
             android:layout_weight="1"
             android:text="Track Location" />
 
-        <Switch
-            android:id="@+id/themeToggle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Theme"/>
-
     </LinearLayout>
 
     <TextView

@@ -136,7 +136,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, SensorEventListene
             }
         })
 
-        binding.themeToggle.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
+        /*binding.themeToggle.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 darkMode = true
                 updateTheme()
@@ -144,14 +144,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, SensorEventListene
                 darkMode = false
                 updateTheme()
             }
-        })
+        })*/
 
     }
     private fun updateButtonStatus() {
 
         binding.locationToggle.setChecked(isTracking)
     }
-
+    /*
     private fun updateTheme() {
         if (darkMode) {
             binding.rootLayout.setBackgroundColor(Color.rgb(33, 33, 33))
@@ -172,7 +172,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, SensorEventListene
             binding.themeToggle.setTextColor(Color.rgb(0, 0, 0))
             binding.titleTextView.setTextColor(Color.rgb(0, 0, 0))
         }
-    }
+    }*/
 
     private fun updateAllDisplayText(stepCount: Int, totalDistanceTravelled: Double, caloriesBurnt: Int, timeElapsed: Long) {
         binding.numberOfStepTextView.text =  String.format("Steps: %d", stepCount)
