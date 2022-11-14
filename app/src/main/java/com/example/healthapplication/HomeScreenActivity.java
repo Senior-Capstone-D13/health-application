@@ -138,6 +138,13 @@ public class HomeScreenActivity extends AppCompatActivity {
                 startActivity(new Intent(HomeScreenActivity.this, WorkoutChallenges.class));
             }
         });
+        Button gotoFriends = findViewById(R.id.gotoFriends);
+        gotoFriends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeScreenActivity.this, Friendslist.class));
+            }
+        });
     }
 
 }

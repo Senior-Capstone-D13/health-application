@@ -35,6 +35,9 @@
             android:name=".DisplayMessageActivity2"
             android:exported="false" />
         <activity
+            android:name=".Friendslist"
+            android:exported="false" />
+        <activity
             android:name=".DisplayMessageActivity3"
             android:exported="false" />
         <activity
