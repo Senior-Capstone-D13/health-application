@@ -177,6 +177,14 @@ public class HomeScreenActivity extends AppCompatActivity {
             }
         });
 
+        Button goCountCalories = findViewById(R.id.goCountCalories);
+        goCountCalories.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeScreenActivity.this, GetCalories.class));
+            }
+        });
+
         //Customization stuff
         Button charBodyLeft = findViewById(R.id.bodyLeft);
         Button charBodyRight = findViewById(R.id.bodyRight);

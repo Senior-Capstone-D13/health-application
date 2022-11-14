@@ -3,10 +3,7 @@ package com.example.healthapplication;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -20,25 +17,27 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.w3c.dom.Text;
+
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
-public class DisplayMessageActivity2 extends AppCompatActivity {
-
+public class GetCalories extends AppCompatActivity {
+    HashMap<String, Integer> calorie_counter = new HashMap<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_display_message2);
-        Intent intent = getIntent();
+        setContentView(R.layout.activity_get_calories);
     }
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -62,39 +61,23 @@ public class DisplayMessageActivity2 extends AppCompatActivity {
         } catch (BadPaddingException e) {
             e.printStackTrace();
         }
-        Button Button1 = (Button) findViewById(R.id.button5);
-        Button1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(DisplayMessageActivity2.this, WorkoutChallenges.class));
-            }
-        });
 
-        Button submit = findViewById(R.id.button3);
-        String finalEncrypted_email = encrypted_email;
-        final Integer[] score = {0};
-        submit.setOnClickListener(new View.OnClickListener() {
+        DocumentReference docRef = db.collection("users").document(encrypted_email);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onClick(View v) {
-                TextView amount_of_time = findViewById(R.id.editTextdistance);
-                int minutes = Integer.parseInt(amount_of_time.getText().toString().trim());
-                CollectionReference user_ref = db.collection("users");
-                DocumentReference docRef = db.collection("users").document(finalEncrypted_email);
-                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if(task.isSuccessful()){
-                            DocumentSnapshot ds = task.getResult();
-                            HashMap<String, Integer> calorie_counter = (HashMap<String, Integer>) ds.get("exercise_log");
-                            try {
-                                calorie_counter.put("Running", dc.get_calories("Running", minutes));
-                                docRef.update("exercise_log", calorie_counter);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot ds = task.getResult();
+                    calorie_counter = (HashMap<String, Integer>) ds.get("exercise_log");
+                    int total_calories = 0;
+                    TextView tv1 = findViewById(R.id.ViewLog);
+                    String calorie = null;
+                    for (Map.Entry<String, Integer> set :
+                            calorie_counter.entrySet()) {
+                        // Printing all elements of a Map
                     }
-                });
+                    tv1.setText(calorie_counter.toString());
+                }
             }
         });
     }

@@ -65,6 +65,7 @@ public class UserQuestionsActivity extends AppCompatActivity {
                     GoogleSignInAccount account = (GoogleSignInAccount) extras.get("credentials");
                     //adding user to database
                     Map<String, Object> user = new HashMap<>();
+                    Map<String, Integer> calorie_log = new HashMap<>();
 
 // Encrypt the user Email using an instance of the CipherHandler Class
                     CipherHandler cipherHandler = new CipherHandler();
@@ -77,6 +78,7 @@ public class UserQuestionsActivity extends AppCompatActivity {
                     user.put("received_challenges", received_challenges);
                     user.put("sent_challenges", sent_challenges);
                     user.put("accepted_challenges", accepted_challenges);
+                    user.put("exercise_log", calorie_log);
     // Add a new document with a generated ID
 //                    db.collection("users")
 //                            .document(account.getEmail())

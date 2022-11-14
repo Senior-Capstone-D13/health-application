@@ -14,13 +14,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HealthApplication">
+        <activity
+            android:name=".GetCalories"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyD9mKCeX07Aou5Nd4ZiHeUSSFYvse3ZJsk" />
+
         <activity
             android:name=".MapsActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".ChallengesActivityMain"
             android:exported="false">
