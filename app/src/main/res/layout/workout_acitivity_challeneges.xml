@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".WorkoutChallenges">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
@@ -35,8 +36,10 @@
 
     <ImageButton
         android:id="@+id/imageButton4"
-        android:layout_width="346dp"
-        android:layout_height="167dp"
+        android:layout_width="185dp"
+        android:layout_height="60dp"
+        android:scaleType="fitXY"
+        android:background="#0000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.507"
@@ -48,27 +51,30 @@
 
     <ImageButton
         android:id="@+id/imageButton5"
-        android:layout_width="347dp"
-        android:layout_height="158dp"
+        android:layout_width="185dp"
+        android:layout_height="60dp"
+        android:scaleType="fitXY"
+        android:background="#0000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.397"
+        app:layout_constraintVertical_bias="0.185"
         app:srcCompat="@drawable/download2"
         tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
 
     <ImageButton
         android:id="@+id/imageButton7"
-        android:layout_width="348dp"
-        android:layout_height="155dp"
+        android:layout_width="185dp"
+        android:layout_height="60dp"
+        android:scaleType="fitXY"
+        android:background="#0000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.738"
+        app:layout_constraintVertical_bias="0.306"
         app:srcCompat="@drawable/download3"
         tools:ignore="SpeakableTextPresentCheck" />
 
@@ -83,5 +89,47 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.918" />
+
+    <ImageButton
+        android:id="@+id/imageButton8"
+        android:layout_width="185dp"
+        android:layout_height="60dp"
+        android:scaleType="fitXY"
+        android:background="#0000"
+        app:layout_constraintBottom_toTopOf="@+id/button4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageButton7"
+        app:layout_constraintVertical_bias="0.08"
+        app:srcCompat="@drawable/download4" />
+
+    <ImageButton
+        android:id="@+id/imageButton9"
+        android:layout_width="185dp"
+        android:layout_height="60dp"
+        android:scaleType="fitXY"
+        android:background="#0000"
+        app:layout_constraintBottom_toTopOf="@+id/button4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.511"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageButton7"
+        app:layout_constraintVertical_bias="0.395"
+        app:srcCompat="@drawable/download5" />
+
+    <ImageButton
+        android:id="@+id/imageButton10"
+        android:layout_width="185dp"
+        android:layout_height="60dp"
+        android:scaleType="fitXY"
+        android:background="#0000"
+        app:layout_constraintBottom_toTopOf="@+id/button4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.522"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageButton7"
+        app:layout_constraintVertical_bias="0.765"
+        app:srcCompat="@drawable/download6" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
