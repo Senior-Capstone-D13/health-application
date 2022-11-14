@@ -131,6 +131,13 @@ public class HomeScreenActivity extends AppCompatActivity {
 //                overridePendingTransition(R.anim.zoom_in,R.anim.expand_effect);
             }
         });
+        Button gotoWorkoutFragments = findViewById(R.id.goSelectWorkout);
+        gotoWorkoutFragments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeScreenActivity.this, WorkoutChallenges.class));
+            }
+        });
     }
 
 }
