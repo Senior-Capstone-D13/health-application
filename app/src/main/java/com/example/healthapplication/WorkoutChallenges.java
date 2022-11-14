@@ -13,6 +13,9 @@ public class WorkoutChallenges extends AppCompatActivity {
     ImageButton androidImageButton1;
     ImageButton androidImageButton2;
     ImageButton androidImageButton3;
+    ImageButton androidImageButton4;
+    ImageButton androidImageButton5;
+    ImageButton androidImageButton6;
     Button androidButton1;
     public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
     @Override
@@ -22,6 +25,9 @@ public class WorkoutChallenges extends AppCompatActivity {
         androidImageButton1 = (ImageButton) findViewById(R.id.imageButton4);
         androidImageButton2 = (ImageButton) findViewById(R.id.imageButton5);
         androidImageButton3 = (ImageButton) findViewById(R.id.imageButton7);
+        androidImageButton4 = (ImageButton) findViewById(R.id.imageButton8);
+        androidImageButton5 = (ImageButton) findViewById(R.id.imageButton9);
+        androidImageButton6 = (ImageButton) findViewById(R.id.imageButton10);
         androidButton1 = (Button) findViewById((R.id.button4));
         androidImageButton1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,6 +45,24 @@ public class WorkoutChallenges extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 sendMessage2(view);
+            }
+        });
+        androidImageButton4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendMessage5(view);
+            }
+        });
+        androidImageButton5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendMessage6(view);
+            }
+        });
+        androidImageButton6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendMessage7(view);
             }
         });
        androidButton1.setOnClickListener(new View.OnClickListener() {
@@ -60,6 +84,18 @@ public class WorkoutChallenges extends AppCompatActivity {
     }
     public void sendMessage2(View view){
         Intent intent = new Intent(this, DisplayMessageActivity2.class);
+        startActivity(intent);
+    }
+    public void sendMessage5(View view){
+        Intent intent = new Intent(this, DisplayMessageActivity3.class);
+        startActivity(intent);
+    }
+    public void sendMessage6(View view){
+        Intent intent = new Intent(this, DisplayMessageActivity4.class);
+        startActivity(intent);
+    }
+    public void sendMessage7(View view){
+        Intent intent = new Intent(this, DisplayMessageActivity5.class);
         startActivity(intent);
     }
     public void sendMessage3(View view){

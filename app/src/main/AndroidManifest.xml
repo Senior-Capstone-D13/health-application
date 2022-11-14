@@ -47,6 +47,15 @@
             android:name=".DisplayMessageActivity2"
             android:exported="false" />
         <activity
+            android:name=".DisplayMessageActivity3"
+            android:exported="false" />
+        <activity
+            android:name=".DisplayMessageActivity4"
+            android:exported="false" />
+        <activity
+            android:name=".DisplayMessageActivity5"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
